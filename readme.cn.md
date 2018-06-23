@@ -1,5 +1,5 @@
 ## 客户对客户系统
 
-你可以查看[英文](README.md)文档
+You can read as[English Document](README.md)
 
 > 一个让客户间互相租赁房子的平台
