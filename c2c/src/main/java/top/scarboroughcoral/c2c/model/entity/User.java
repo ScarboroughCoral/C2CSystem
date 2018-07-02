@@ -1,8 +1,11 @@
 package top.scarboroughcoral.c2c.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import top.scarboroughcoral.c2c.util.MD5Util;
 
 import javax.persistence.*;
+
+import java.util.Date;
 
 import static top.scarboroughcoral.c2c.util.Constant.USER_STATUS_OFFLINE;
 
@@ -12,46 +15,42 @@ public class User {
 
     @Id
     @GeneratedValue
-    private Integer user_id;
-
-    private String loginName;
+    @Column(name = "user_id")
+    private Integer userId;
 
     private String username;
 
+    @JsonIgnore
     private String password;
 
-    private boolean is_delete;
+    private String name;
 
-    private String login_status;
+    private String phone;
 
-    private Integer user_priority;
+    private String mail;
+
+    private String address;
+
+    @Column(name = "regist_time")
+    private Date registTime;
+
+    @Column(name = "id_card")
+    private String IDCard;
+
+    @Column(name = "is_delete")
+    private Boolean deleted;
+
+    private String token;
 
     public User() {
     }
 
-    public User(String loginName,String username, String password, Integer userPriority) {
-        this.username = username;
-        this.loginName = loginName;
-        this.password = MD5Util.getMD5(password);
-        this.user_priority = userPriority;
-        this.is_delete = false;
-        this.login_status = USER_STATUS_OFFLINE;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public String getLoginName() {
-        return loginName;
-    }
-
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
-
-    public Integer getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -70,27 +69,67 @@ public class User {
         this.password = password;
     }
 
-    public boolean isIs_delete() {
-        return is_delete;
+    public String getName() {
+        return name;
     }
 
-    public void setIs_delete(boolean is_delete) {
-        this.is_delete = is_delete;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLogin_status() {
-        return login_status;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setLogin_status(String login_status) {
-        this.login_status = login_status;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public Integer getUser_priority() {
-        return user_priority;
+    public String getMail() {
+        return mail;
     }
 
-    public void setUser_priority(Integer user_priority) {
-        this.user_priority = user_priority;
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getRegistTime() {
+        return registTime;
+    }
+
+    public void setRegistTime(Date registTime) {
+        this.registTime = registTime;
+    }
+
+    public String getIDCard() {
+        return IDCard;
+    }
+
+    public void setIDCard(String IDCard) {
+        this.IDCard = IDCard;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

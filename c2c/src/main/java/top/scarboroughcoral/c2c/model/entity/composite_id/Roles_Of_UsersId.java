@@ -5,6 +5,6 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 public class Roles_Of_UsersId implements Serializable {
-    private Integer role_id;
-    private Integer user_id;
+    private Integer roleId;
+    private Integer userId;
 }

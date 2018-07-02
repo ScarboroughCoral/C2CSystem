@@ -9,6 +9,7 @@ spring:
 #    url: jdbc:mysql://localhost:3306/c2c_system
     username: root
     password: root
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,3 +17,4 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
     show-sql: true
+

@@ -1,7 +1,7 @@
 server:
-  port: 6666
+  port: 9999
   servlet:
-    context-path: /vote
+    context-path: /c2c
 
 ResourcePath: /home/scarborough_coral/MNTS/files/
 getResourcePath: http:localhost:9797/vote/file/

@@ -15,8 +15,6 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -31,8 +29,7 @@ public class UserController {
 
     @GetMapping(value = "/users")
     public BaseResult<List<User>> getUsers(){
-        List<User> users = userRepository.findAll();
-        BaseResult<List<User>> result = new BaseResult<>("test",true,users);
+        BaseResult<List<User>> result = new BaseResult<>("test",true,null);
         return result;
     }
 
