@@ -1,8 +1,0 @@
-server:
-  port: 9797
-  servlet:
-    context-path: /vote
-
-#配置虚拟路径，会议文件的
-ResourcePath: D:/Program Files/Apache Software Foundation/vote/webapps/files/
-getResourcePath: http:10.245.150.40:9797/vote/file/

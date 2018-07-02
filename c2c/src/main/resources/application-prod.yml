@@ -1,0 +1,8 @@
+server:
+  port: 6666
+  servlet:
+    context-path: /c2c
+
+#配置虚拟路径，会议文件的
+ResourcePath: D:/Program Files/Apache Software Foundation/vote/webapps/files/
+getResourcePath: http:10.245.150.40:9797/vote/file/
