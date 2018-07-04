@@ -15,12 +15,8 @@ import java.util.List;
 @RestController
 public class UserController {
 
-
     @Autowired
     private UserService userService;
-
-
-
 
     @RequestMapping(value = "/hello",method = RequestMethod.GET)
     public String hello(){
@@ -29,7 +25,8 @@ public class UserController {
 
     @GetMapping(value = "/users")
     public BaseResult<List<User>> getUsers(){
-        BaseResult<List<User>> result = new BaseResult<>("test",true,null);
+        BaseResult<List<User>> result = new BaseResult<>();
+        userService.getUserList(result);
         return result;
     }
 
@@ -55,28 +52,27 @@ public class UserController {
     }
 
     @PostMapping(value = "/logout")
-    public BaseResult<AdminDTO> logout(){
-        return null;
+    public BaseResult<AdminDTO> logout(@RequestParam("username") String  username,
+                                       @RequestParam("password") String password){
+        BaseResult<AdminDTO> result = new BaseResult<>();
+        userService.logout(username,password,result);
+        return result;
     }
 
     @PostMapping(value = "/addUser")
     public BaseResult<Object> addUser(@RequestParam("loginName") String loginName,
                                       @RequestParam("username") String username,
                                       @RequestParam("password") String password,
-                                      @RequestParam("userPriority") Integer userPriority,
-                                      @RequestParam("role") Integer role
+                                      @RequestParam("phone") String phone,
+                                      @RequestParam("mail") String mail,
+                                      @RequestParam("address") String address,
+                                      @RequestParam("idCard") String idCard
                                       ){
         BaseResult<Object> result = new BaseResult<>();
-        userService.addUser(loginName,username,password,userPriority,result,role);
+        userService.addUser(loginName,username,password,phone,mail,address,idCard,result);
         return result;
     }
 
-    @PostMapping(value  = "/listUser")
-    public BaseResult<List<UserListResult>> listUser(Integer role, Integer meetingId, Integer voteId){
-        BaseResult<List<UserListResult>> result = new BaseResult<>();
-        userService.listUser(role,meetingId,voteId,result);
-        return result;
-    }
 
     @PostMapping(value = "/changeUserMeeting")
     public BaseResult<Object> changeUserMeeting(@RequestBody List<Integer> userIdList, @RequestParam Integer meetingId){

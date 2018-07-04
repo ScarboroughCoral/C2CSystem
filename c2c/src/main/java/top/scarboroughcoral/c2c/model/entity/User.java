@@ -1,13 +1,11 @@
 package top.scarboroughcoral.c2c.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import top.scarboroughcoral.c2c.util.MD5Util;
 
 import javax.persistence.*;
 
 import java.util.Date;
 
-import static top.scarboroughcoral.c2c.util.Constant.USER_STATUS_OFFLINE;
 
 @Entity
 @Table(name = "user")
@@ -43,6 +41,19 @@ public class User {
     private String token;
 
     public User() {
+    }
+
+    public User(String username, String password, String name, String phone, String mail, String address, Date registTime, String IDCard, Boolean deleted, String token) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+        this.mail = mail;
+        this.address = address;
+        this.registTime = registTime;
+        this.IDCard = IDCard;
+        this.deleted = deleted;
+        this.token = token;
     }
 
     public Integer getUserId() {

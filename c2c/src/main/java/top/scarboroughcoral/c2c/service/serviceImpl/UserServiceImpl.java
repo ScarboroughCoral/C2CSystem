@@ -13,6 +13,7 @@ import top.scarboroughcoral.c2c.service.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Date;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,32 +23,45 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void login(String loginName, String password, String terminalId, BaseResult<LoginDTO> result) {
-
-    }
-
-    @Override
-    public void admin(String loginName, String password, BaseResult<AdminDTO> result) {
-        User user = userRepository.findByAdmin(loginName,password);
-        if (user!=null){
-            AdminDTO adminDTO = new AdminDTO(user.getUsername());
-            result.setData(adminDTO);
+        User user = userRepository.findByLogin(loginName,password);
+        if(user != null){
+            userRepository.online(user.getUsername(),user.getPassword());
+            LoginDTO loginDTO = new LoginDTO(user.getUsername(),user.getUserId(),user.getName());
+            result.setData(loginDTO);
             result.setSuccess(true);
-            result.setMessage("登陆成功！");
-        }else {
-            result.setMessage("请检查用户名和密码！");
+            result.setMessage("登陆成功");
+        }else{
+            result.setMessage("请检查用户名和密码");
         }
     }
 
     @Override
-    public void addUser(String loginName, String username, String password, Integer userPriority, BaseResult<Object> result, Integer role) {
-
+    public void logout(String username, String password, BaseResult<AdminDTO> result) {
+        userRepository.offline(username,password);
+        result.setSuccess(true);
+        result.setMessage("登出成功");
+        result.setData(new AdminDTO(username));
     }
 
     @Override
-    public void listUser(Integer role, Integer meetingId, Integer voteId, BaseResult<List<UserListResult>> result) {
-        List<Object> objList = userRepository.findByRole(role,meetingId, voteId);
-        List<UserListResult> userList = objList.stream().map(UserListResult::new)
-                .collect(Collectors.toList());
+    public void admin(String loginName, String password, BaseResult<AdminDTO> result) {
+    }
+
+    @Override
+    public void addUser(String loginName, String username, String password, String phone, String mail, String address, String idCard, BaseResult<Object> result) {
+        Date date = new Date();
+        userRepository.save(new User(username, password, loginName, phone, mail, address, date, idCard, false, "notOnline"));
+        result.setMessage("成功注册");
+        result.setSuccess(true);
+    }
+
+
+    @Override
+    public void getUserList(BaseResult<List<User>> result) {
+//        List<Object> objList = userRepository.findByRole(role,meetingId, voteId);
+//        List<UserListResult> userList = objList.stream().map(UserListResult::new)
+//                .collect(Collectors.toList());
+        List<User> userList = userRepository.getUserList();
         result.construct(Constant.RESULT_BASE_QUERY_SUCCESS_MESSAGE, true, userList);
     }
 
