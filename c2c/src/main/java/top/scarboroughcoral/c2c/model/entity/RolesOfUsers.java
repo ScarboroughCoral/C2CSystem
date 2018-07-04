@@ -2,14 +2,12 @@ package top.scarboroughcoral.c2c.model.entity;
 
 import top.scarboroughcoral.c2c.model.entity.composite_id.Roles_Of_UsersId;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "roles_of_users")
 @IdClass(Roles_Of_UsersId.class)
-public class Roles_Of_Users {
+public class RolesOfUsers {
     @Id
     @Column(name = "role_id")
     private Integer roleId;
@@ -17,10 +15,10 @@ public class Roles_Of_Users {
     @Column(name = "user_id")
     private Integer userId;
 
-    public Roles_Of_Users() {
+    public RolesOfUsers() {
     }
 
-    public Roles_Of_Users(Integer user_id, Integer role) {
+    public RolesOfUsers(Integer user_id, Integer role) {
         this.userId = user_id;
         this.roleId = role;
     }

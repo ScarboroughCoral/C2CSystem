@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.scarboroughcoral.c2c.model.dto.AdminDTO;
 import top.scarboroughcoral.c2c.model.dto.LoginDTO;
-import top.scarboroughcoral.c2c.model.entity.Roles_Of_Users;
 import top.scarboroughcoral.c2c.model.entity.User;
 import top.scarboroughcoral.c2c.repository.UserRepository;
 import top.scarboroughcoral.c2c.util.Constant;
@@ -12,7 +11,6 @@ import top.scarboroughcoral.c2c.model.result.BaseResult;
 import top.scarboroughcoral.c2c.model.result.UserListResult;
 import top.scarboroughcoral.c2c.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
