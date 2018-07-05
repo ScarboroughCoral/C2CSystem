@@ -32,10 +32,10 @@ public class UserController {
 
     @PostMapping(value = "/login")
     public BaseResult<LoginDTO> login(@RequestParam("loginName") String loginName,
-                                      @RequestParam("password") String password,
-                                      @RequestParam("terminalId") String terminalId){
+                                      @RequestParam("password") String password
+                                      ){
         BaseResult<LoginDTO> result = new BaseResult<>();
-        userService.login(loginName,password,terminalId,result);
+        userService.login(loginName,password,result);
         return result;
     }
 
