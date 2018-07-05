@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserService {
 
-    void login(String loginName, String password, String terminalId, BaseResult<LoginDTO> result);
+    void login(String loginName, String password, BaseResult<LoginDTO> result);
 
     void logout(String username,String password, BaseResult<AdminDTO> result);
 

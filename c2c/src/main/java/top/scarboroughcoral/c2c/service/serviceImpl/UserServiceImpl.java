@@ -8,11 +8,9 @@ import top.scarboroughcoral.c2c.model.entity.User;
 import top.scarboroughcoral.c2c.repository.UserRepository;
 import top.scarboroughcoral.c2c.util.Constant;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
-import top.scarboroughcoral.c2c.model.result.UserListResult;
 import top.scarboroughcoral.c2c.service.UserService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.Date;
 
 @Service
@@ -22,10 +20,10 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public void login(String loginName, String password, String terminalId, BaseResult<LoginDTO> result) {
+    public void login(String loginName, String password, BaseResult<LoginDTO> result) {
         User user = userRepository.findByLogin(loginName,password);
         if(user != null){
-            userRepository.online(user.getUsername(),user.getPassword());
+//            userRepository.online(user.getUsername(),user.getPassword());
             LoginDTO loginDTO = new LoginDTO(user.getUsername(),user.getUserId(),user.getName());
             result.setData(loginDTO);
             result.setSuccess(true);

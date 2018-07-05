@@ -24,12 +24,12 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query(value = "select * from USER",nativeQuery = true)
     List<User> getUserList();
 
-    @Query(value = "update USER" +
+    @Query(value = "UPDATE USER" +
             "set token='online'" +
-            "where password=?2 and username=?1",nativeQuery =  true)
+            "where password=md5(?2) and username=?1",nativeQuery =  true)
     void online(String username,String password);
 
-    @Query(value = "update USER u" +
+    @Query(value = "UPDATE USER u" +
             "set u.token='notOnline'" +
             "where u.username=?1 and u.password=?2",nativeQuery = true)
     void offline(String username,String password);
