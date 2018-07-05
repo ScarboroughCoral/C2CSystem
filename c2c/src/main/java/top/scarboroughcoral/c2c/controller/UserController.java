@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public BaseResult<LoginDTO> login(@RequestParam("username") String loginName,
+    public BaseResult<LoginDTO> login(@RequestParam("loginName") String loginName,
                                       @RequestParam("password") String password
                                       ){
         BaseResult<LoginDTO> result = new BaseResult<>();
