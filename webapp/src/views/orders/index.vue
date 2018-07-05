@@ -7,10 +7,6 @@
       <el-button type="primary" icon="el-icon-check" disabled>选择组别</el-button>
       <el-button type="primary" @click="handleUpdate" disabled  icon="el-icon-edit">修改信息</el-button>
       <el-button type="danger"  icon="el-icon-delete" disabled>删除评委</el-button>
-      <el-button type="primary" icon="el-icon-menu" disabled>组别管理</el-button>
-      <el-button type="primary" icon="el-icon-sort" @click="handleExchangeMeeting">参会反转</el-button>
-      <el-button type="primary" icon="el-icon-d-caret" @click="handleExchangeVote">投票翻转</el-button>
-      <el-button type="danger" disabled style="margin-left:50px;">强制下线</el-button>
     </div>
 
     <div class="filter-bar">
@@ -27,41 +23,50 @@
     <el-table :data="list" v-loading.body="listLoading"
     @selection-change="handleSelectionChange"
      element-loading-text="Loading" border fit highlight-current-row
-     :default-sort = "{prop: 'userid', order: 'descending'}">
+     :default-sort = "{prop: 'userid', order: 'descending'}"
+     >
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column align="center" label='序号' type="index" width="95">
-      </el-table-column>
-      <el-table-column sortable prop="userid" label="工号"  align="center">
+      <el-table-column align="center" label="房源类型">
         <template slot-scope="scope">
-          {{scope.row.username}}
+          <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="姓名"  align="center">
+      <el-table-column align="center" label="房源简介">
         <template slot-scope="scope">
-          <span>{{scope.row.loginName}}</span>
+          <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="是否参会"  align="center">
+      <el-table-column align="center" label="房源所在地">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.onMeeting | statusFilter">{{scope.row.onMeeting|onMeetingStatusFilter}}</el-tag>
+          <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
-     <el-table-column class-name="status-col" label="能否投票"  align="center">
+      <el-table-column align="center" label="phone">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.onVote | statusFilter" v-if="nowVote">{{scope.row.onVote|onMeetingStatusFilter}}</el-tag>
-          <el-tag type="info" v-else>-</el-tag>
+          <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="登录状态"  align="center">
+      <el-table-column align="center" label="zujin">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.loginStatus}}</el-tag>
+          <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
-      <!--<el-table-column label="所属组别">
+      <el-table-column align="center" label="fabushijian">
         <template slot-scope="scope">
-          {{scope.row.title}}
+          <span>{{scope.row.username}}</span>
         </template>
-      </el-table-column>-->
+      </el-table-column>
+      <!-- <el-table-column class-name="status-col" label="终端状态" align="center">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.status | statusFilter">{{scope.row.terminal_status}}</el-tag>
+        </template>
+      </el-table-column> -->
+
+      <el-table-column align="center" label="操作">
+        <template slot-scope="scope">
+          <el-button v-if="scope.row.vote_status!='1'" type="success" size="mini" @click="" >envaluate</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" >
       <el-form   label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
