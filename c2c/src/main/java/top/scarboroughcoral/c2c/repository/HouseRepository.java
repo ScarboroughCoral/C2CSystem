@@ -3,14 +3,16 @@ package top.scarboroughcoral.c2c.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import top.scarboroughcoral.c2c.model.dto.HouseMsgDTO;
+import top.scarboroughcoral.c2c.model.entity.House;
 
 import java.util.List;
 
-public interface HouseRepository extends JpaRepository<HouseMsgDTO,Integer> {
+public interface HouseRepository extends JpaRepository<House,Integer> {
 
 
-    @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(ht.house_type_description,) "+
-            "from user u,userorder o,housetype ht,house h" +
-            "where h.house_type_id=ht.house_type_id and h.order_id=o.order_id and o.user_id=u.user_id")
+    @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(ht.houseTypeDesc,h.houseDesc," +
+            "h.houseAddr,u.phone,h.price,o.orderTime) "+
+            "from User u,UserOrder o,HouseType ht,House h " +
+            "where h.houseTypeId=ht.houseTypeId and h.orderId=o.orderId and o.userId=u.userId")
     List<HouseMsgDTO> getHouseMsg();
 }

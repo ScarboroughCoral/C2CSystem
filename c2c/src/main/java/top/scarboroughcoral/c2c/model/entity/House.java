@@ -22,7 +22,7 @@ public class House {
     @Column(name = "house_area")
     private Double houseArea;
     @Column(name = "house_desc")
-    private String hosueDesc;
+    private String houseDesc;
     @Column(name = "house_addr")
     private String houseAddr;
 
@@ -85,11 +85,19 @@ public class House {
         this.houseArea = houseArea;
     }
 
-    public String getHosueDesc() {
-        return hosueDesc;
+    public String getHouseDesc() {
+        return houseDesc;
     }
 
-    public void setHosueDesc(String hosueDesc) {
-        this.hosueDesc = hosueDesc;
+    public void setHouseDesc(String houseDesc) {
+        this.houseDesc = houseDesc;
+    }
+
+    public String getHouseAddr() {
+        return houseAddr;
+    }
+
+    public void setHouseAddr(String houseAddr) {
+        this.houseAddr = houseAddr;
     }
 }

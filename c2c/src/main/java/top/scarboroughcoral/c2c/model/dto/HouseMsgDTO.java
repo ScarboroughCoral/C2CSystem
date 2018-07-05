@@ -1,6 +1,6 @@
 package top.scarboroughcoral.c2c.model.dto;
 
-import javax.xml.crypto.Data;
+import java.util.Date;
 
 public class HouseMsgDTO {
 
@@ -10,13 +10,13 @@ public class HouseMsgDTO {
     private float houseMoney;
 
     private String orderPhone;
-    private Data orderTime;
+    private Date orderTime;
 
     public HouseMsgDTO(){
 
     }
 
-    public HouseMsgDTO(String houseTypeDes, String houseDes, String houseAddr, String orderPhone, float houseMoney, Data orderTime) {
+    public HouseMsgDTO(String houseTypeDes, String houseDes, String houseAddr, String orderPhone, float houseMoney, Date orderTime) {
         this.houseTypeDes = houseTypeDes;
         this.houseDes = houseDes;
         this.houseAddr = houseAddr;
@@ -65,11 +65,11 @@ public class HouseMsgDTO {
         this.houseMoney = houseMoney;
     }
 
-    public Data getOrderTime() {
+    public Date getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(Data orderTime) {
+    public void setOrderTime(Date orderTime) {
         this.orderTime = orderTime;
     }
 }
