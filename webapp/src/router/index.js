@@ -59,7 +59,7 @@ export const constantRouterMap = [
       {
         path: 'index',
         name: 'Terminal',
-        component: () => import('@/views/terminal/index'),
+        component: () => import('@/views/houses/index'),
         meta: { title: '我想租房', icon: 'terminal' }
       }
     ]
@@ -78,13 +78,13 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/judges',
+    path: '/orders',
     component: Layout,
     children: [
       {
         path: 'index',
         name: 'Judges',
-        component: () => import('@/views/judges/index'),
+        component: () => import('@/views/orders/index'),
         meta: { title: '我的订单', icon: 'file' }
       }
     ]

@@ -16,24 +16,45 @@
     fit 
     highlight-current-row>
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column sortable prop="terminalid" align="center" label='终端序号' >
+      <el-table-column align="center" label="房源类型">
         <template slot-scope="scope">
-          {{scope.row.terminal_sequence}}
+          <span>{{scope.row.terminal_sequence}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="终端号"  align="center">
+      <el-table-column align="center" label="房源简介">
         <template slot-scope="scope">
-          {{scope.row.terminal_id}}
+          <span>{{scope.row.terminal_sequence}}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="能否与会" align="center">
+      <el-table-column align="center" label="房源所在地">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.is_in_meeting | statusFilter">{{scope.row.is_in_meeting|inMeetingFilter}}</el-tag>
+          <span>{{scope.row.terminal_sequence}}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="终端状态" align="center">
+      <el-table-column align="center" label="phone">
+        <template slot-scope="scope">
+          <span>{{scope.row.terminal_sequence}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="zujin">
+        <template slot-scope="scope">
+          <span>{{scope.row.terminal_sequence}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="fabushijian">
+        <template slot-scope="scope">
+          <span>{{scope.row.terminal_sequence}}</span>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column class-name="status-col" label="终端状态" align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{scope.row.terminal_status}}</el-tag>
+        </template>
+      </el-table-column> -->
+
+      <el-table-column align="center" label="操作">
+        <template slot-scope="scope">
+          <el-button v-if="scope.row.vote_status!='1'" type="primary" size="mini" @click="" >details</el-button>
         </template>
       </el-table-column>
     </el-table>

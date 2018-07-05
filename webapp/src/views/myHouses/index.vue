@@ -8,44 +8,47 @@
             <el-button type="primary"  icon="el-icon-tickets" @click="handleTraditional">发布房源</el-button>
         </div>
       </div>
-      <div class="filter-block vote-handle">
-        <el-tag>选票操作</el-tag>
-        <div class="filter-container double-filter-container">
-            <el-button type="success" v-if="meetingStatus==0"  icon="el-icon-caret-right" @click="handleMeeting">开始会议</el-button>
-            <el-button type="danger" v-else-if="meetingStatus==1"  icon="el-icon-error" @click="handleMeetingEnd">结束会议</el-button>
-            <el-button type="info" v-else-if="meetingStatus==2" disabled>已结束</el-button>
-            <el-button type="warning" v-else disabled>请先创建会议</el-button>
-            <el-button type="primary"  icon="el-icon-setting" disabled>复制选票</el-button>
-            <el-button type="primary"  icon="el-icon-download" @click="$message.warning('暂只提供查询结果时导出！')">导出结果</el-button>
-        </div>
-      </div>
+      
     </div>
     <!-- 这是筛选栏 -->
     <div class="filter-bar">
-      <el-input disabled style="width: 200px;" class="filter-item" :placeholder="searchInputPlaceholder">
-        <el-button slot="append" icon="el-icon-search"></el-button>
-      </el-input>
+      <el-select disabled style="width: 200px;" class="filter-item" :placeholder="searchInputPlaceholder"></el-select>
     </div>
     <!-- 这是选票列表表格 -->
     <el-table :data="responseData" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" type="selection" width="55"></el-table-column>
       <el-table-column align="center" label="序号" type="index" width="55"></el-table-column>
-      <el-table-column align="center" label="投票内容">
-        <template slot-scope="scope">
-          <span>{{scope.row.title}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="类型">
+      <el-table-column align="center" label="房源类型">
         <template slot-scope="scope">
           <span>{{scope.row.vote_type_name}}</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column align="center" label="最后修改时间">
+      <el-table-column align="center" label="房源简介">
         <template slot-scope="scope">
-          <span>{{scope.row.display_time}}</span>
+          <span>{{scope.row.vote_type_name}}</span>
         </template>
-      </el-table-column> -->
-      <el-table-column align="center" label="发布状态">
+      </el-table-column>
+      <el-table-column align="center" label="房源所在地">
+        <template slot-scope="scope">
+          <span>{{scope.row.vote_type_name}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="phone">
+        <template slot-scope="scope">
+          <span>{{scope.row.vote_type_name}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="zujin">
+        <template slot-scope="scope">
+          <span>{{scope.row.vote_type_name}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="fabushijian">
+        <template slot-scope="scope">
+          <span>{{scope.row.vote_type_name}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="状态">
         <template slot-scope="scope">
           <el-tag :type="scope.row.vote_status | statusFilter">{{scope.row.vote_status | voteStatusFilter}}</el-tag>
         </template>
@@ -516,7 +519,7 @@ export default {
       list: null,
       listLoading: true,
       voteTypeOptions: [1, 2, 3],
-      searchInputPlaceholder: '请输入搜索投票名称',
+      searchInputPlaceholder: '请输入房源类型',
       recordDialogStatus: 'voteResult',
       recordDialogFormVisible:false,
       recordTextMap:{
