@@ -21,11 +21,6 @@ Vue.use(uploader)
 
 Vue.config.productionTip = false
 
-Vue.prototype.meetingStatus = {
-  WAITING:0,
-  STARTING:1,
-  END:2
-}
 
 new Vue({
   el: '#app',

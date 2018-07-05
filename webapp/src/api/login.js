@@ -1,13 +1,13 @@
 import request from '@/utils/request'
 import md5 from 'md5'
 
-export function login(loginName, password) {
+export function login(username, password) {
   return request({
-    url: '/admin',
+    url: '/login',
     dataType:'JSON',
     method:'POST',
     data: {
-      loginName,
+      username,
       password
     }
   })
@@ -25,5 +25,13 @@ export function logout() {
   return request({
     url: '/logout',
     method: 'post'
+  })
+}
+
+export function regist(params) {
+  return request({
+    url:'/regist',
+    method:'POST',
+    params:params
   })
 }
