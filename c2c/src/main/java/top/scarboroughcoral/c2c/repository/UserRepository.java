@@ -30,7 +30,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     void online(String username,String password);
 
     @Query(value = "update USER u" +
-            "set u.token='notOnline" +
+            "set u.token='notOnline'" +
             "where u.username=?1 and u.password=?2",nativeQuery = true)
     void offline(String username,String password);
 
