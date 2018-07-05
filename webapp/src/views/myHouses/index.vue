@@ -3,11 +3,9 @@
     <!-- 这是操作栏 -->
     <div class="filters">
       <div class="filter-block vote-create">
-        <el-tag>新建选票</el-tag>
+        <el-tag>房源管理</el-tag>
         <div class="filter-container double-filter-container">
-            <el-button type="primary"  icon="el-icon-document" @click="handleSimple"  disabled>简单选票</el-button>
-            <el-button type="primary"  icon="el-icon-tickets" @click="handleTraditional">传统选票</el-button>
-            <el-button type="primary"  icon="el-icon-edit-outline" @click="handleRank"  disabled>排名选票</el-button>
+            <el-button type="primary"  icon="el-icon-tickets" @click="handleTraditional">发布房源</el-button>
         </div>
       </div>
       <div class="filter-block vote-handle">

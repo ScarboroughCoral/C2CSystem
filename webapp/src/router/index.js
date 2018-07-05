@@ -38,31 +38,19 @@ export const constantRouterMap = [
   },
 
 
-  {
-    path: '/file',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'File',
-        component: () => import('@/views/file/index'),
-        meta: { title: '文件管理', icon: 'file' }
-      }
-    ]
-  },
+  // {
+  //   path: '/file',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'File',
+  //       component: () => import('@/views/file/index'),
+  //       meta: { title: '文件管理', icon: 'file' }
+  //     }
+  //   ]
+  // },
 
-  {
-    path: '/vote',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Vote',
-        component: () => import('@/views/vote/index'),
-        meta: { title: '选票管理', icon: 'vote' }
-      }
-    ]
-  },
 
   {
     path: '/terminal',
@@ -72,7 +60,19 @@ export const constantRouterMap = [
         path: 'index',
         name: 'Terminal',
         component: () => import('@/views/terminal/index'),
-        meta: { title: '终端管理', icon: 'terminal' }
+        meta: { title: '我想租房', icon: 'terminal' }
+      }
+    ]
+  },
+  {
+    path: '/myHouses',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Vote',
+        component: () => import('@/views/myHouses/index'),
+        meta: { title: '我的房源', icon: 'vote' }
       }
     ]
   },
@@ -85,23 +85,23 @@ export const constantRouterMap = [
         path: 'index',
         name: 'Judges',
         component: () => import('@/views/judges/index'),
-        meta: { title: '评委管理', icon: 'judges' }
+        meta: { title: '我的订单', icon: 'file' }
       }
     ]
   },
 
-  {
-    path: '/system',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'System',
-        component: () => import('@/views/system/index'),
-        meta: { title: '系统设置', icon: 'system' }
-      }
-    ]
-  },
+  // {
+  //   path: '/system',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'System',
+  //       component: () => import('@/views/system/index'),
+  //       meta: { title: '系统设置', icon: 'system' }
+  //     }
+  //   ]
+  // },
 
   { path: '*', redirect: '/404', hidden: true }
 ]
