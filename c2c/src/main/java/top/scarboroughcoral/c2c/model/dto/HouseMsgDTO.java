@@ -7,7 +7,7 @@ public class HouseMsgDTO {
     private String houseTypeDes;
     private String houseDes;
     private String houseAddr;
-    private float houseMoney;
+    private Double houseMoney;
 
     private String orderPhone;
     private Date orderTime;
@@ -16,7 +16,7 @@ public class HouseMsgDTO {
 
     }
 
-    public HouseMsgDTO(String houseTypeDes, String houseDes, String houseAddr, String orderPhone, float houseMoney, Date orderTime) {
+    public HouseMsgDTO(String houseTypeDes, String houseDes, String houseAddr, String orderPhone, Double houseMoney, Date orderTime) {
         this.houseTypeDes = houseTypeDes;
         this.houseDes = houseDes;
         this.houseAddr = houseAddr;
@@ -57,11 +57,11 @@ public class HouseMsgDTO {
         this.orderPhone = orderPhone;
     }
 
-    public float getHouseMoney() {
+    public Double getHouseMoney() {
         return houseMoney;
     }
 
-    public void setHouseMoney(float houseMoney) {
+    public void setHouseMoney(Double houseMoney) {
         this.houseMoney = houseMoney;
     }
 
