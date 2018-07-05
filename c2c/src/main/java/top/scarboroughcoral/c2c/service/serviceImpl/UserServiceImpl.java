@@ -9,6 +9,7 @@ import top.scarboroughcoral.c2c.repository.UserRepository;
 import top.scarboroughcoral.c2c.util.Constant;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
 import top.scarboroughcoral.c2c.service.UserService;
+import top.scarboroughcoral.c2c.util.MD5Util;
 
 import java.util.List;
 import java.util.Date;
@@ -23,7 +24,8 @@ public class UserServiceImpl implements UserService {
     public void login(String loginName, String password, BaseResult<LoginDTO> result) {
         User user = userRepository.findByLogin(loginName,password);
         if(user != null){
-//            userRepository.online(user.getUsername(),user.getPassword());
+            user.setToken("Online");
+            userRepository.save(user);
             LoginDTO loginDTO = new LoginDTO(user.getUsername(),user.getUserId(),user.getName());
             result.setData(loginDTO);
             result.setSuccess(true);
@@ -35,7 +37,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void logout(String username, String password, BaseResult<AdminDTO> result) {
-        userRepository.offline(username,password);
+        User user = userRepository.findByLogin(username,password);
+        user.setToken("notOnline");
+        userRepository.save(user);
         result.setSuccess(true);
         result.setMessage("登出成功");
         result.setData(new AdminDTO(username));
@@ -48,7 +52,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(String loginName, String username, String password, String phone, String mail, String address, String idCard, BaseResult<Object> result) {
         Date date = new Date();
-        userRepository.save(new User(username, password, loginName, phone, mail, address, date, idCard, false, "notOnline"));
+        userRepository.save(new User(username, MD5Util.getMD5(password), loginName, phone, mail, address, date, idCard, false, "notOnline"));
         result.setMessage("成功注册");
         result.setSuccess(true);
     }
