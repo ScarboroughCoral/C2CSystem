@@ -15,6 +15,11 @@ public class HousesOfRenters {
     @Column(name = "house_id")
     private Integer houseId;
 
+    public HousesOfRenters(Integer userId, Integer houseId) {
+        this.userId = userId;
+        this.houseId = houseId;
+    }
+
     public HousesOfRenters() {
     }
 

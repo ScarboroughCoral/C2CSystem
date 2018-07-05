@@ -1,13 +1,13 @@
 package top.scarboroughcoral.c2c.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.scarboroughcoral.c2c.model.dto.HouseMsgDTO;
+import top.scarboroughcoral.c2c.model.dto.RentDTO;
+import top.scarboroughcoral.c2c.model.entity.HouseType;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
 import top.scarboroughcoral.c2c.service.HouseService;
+import top.scarboroughcoral.c2c.util.ResultUtil;
 
 import java.util.List;
 
@@ -24,6 +24,27 @@ public class HouseController {
         BaseResult<List<HouseMsgDTO>> result = new BaseResult<>();
         houseService.getHouseMsg(result);
         return result;
+    }
+
+    @PostMapping("/rentHouse")
+    public BaseResult<Object> rentHouse(@RequestBody(required = true)RentDTO rentDTO){
+        BaseResult<Object> result = new BaseResult<>();
+        houseService.rentHouse(rentDTO,result);
+        return result;
+    }
+
+    @PostMapping("/renterHouseMsg")
+    public BaseResult<List<HouseMsgDTO>> getRenterHouseMsg(@RequestParam("userID") int  userID){
+        BaseResult<List<HouseMsgDTO>> r = new BaseResult<>();
+        houseService.getRenterHouseMsg(userID,r);
+        return r;
+    }
+
+    @GetMapping("/getHouseType")
+    public BaseResult<List<HouseType>> getHouseType(){
+        BaseResult<List<HouseType>> r = new BaseResult<>();
+        houseService.getHouseType(r);
+        return r;
     }
 
 }
