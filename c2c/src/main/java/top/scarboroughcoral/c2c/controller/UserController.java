@@ -1,13 +1,12 @@
 package top.scarboroughcoral.c2c.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.scarboroughcoral.c2c.model.dto.AdminDTO;
 import top.scarboroughcoral.c2c.model.dto.LoginDTO;
 import top.scarboroughcoral.c2c.model.entity.User;
-import top.scarboroughcoral.c2c.repository.UserRepository;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
-import top.scarboroughcoral.c2c.model.result.UserListResult;
 import top.scarboroughcoral.c2c.service.UserService;
 
 import java.util.List;
@@ -60,13 +59,13 @@ public class UserController {
     }
 
     @PostMapping(value = "/addUser")
-    public BaseResult<Object> addUser(@RequestParam("loginName") String loginName,
+    public BaseResult<Object> addUser(@RequestParam("nickname") String loginName,
                                       @RequestParam("username") String username,
                                       @RequestParam("password") String password,
-                                      @RequestParam("phone") String phone,
-                                      @RequestParam("mail") String mail,
-                                      @RequestParam("address") String address,
-                                      @RequestParam("idCard") String idCard
+                                      @RequestParam(value = "phone",required = false) String phone,
+                                      @RequestParam(value = "mail",required = false) String mail,
+                                      @RequestParam(value = "address",required = false) String address,
+                                      @RequestParam(value = "idCard",required = false) String idCard
                                       ){
         BaseResult<Object> result = new BaseResult<>();
         userService.addUser(loginName,username,password,phone,mail,address,idCard,result);

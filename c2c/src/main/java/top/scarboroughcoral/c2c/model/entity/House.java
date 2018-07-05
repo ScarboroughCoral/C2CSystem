@@ -23,6 +23,8 @@ public class House {
     private Double houseArea;
     @Column(name = "house_desc")
     private String hosueDesc;
+    @Column(name = "house_addr")
+    private String houseAddr;
 
     public House() {
     }
