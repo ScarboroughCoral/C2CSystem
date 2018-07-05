@@ -1,4 +1,4 @@
-package top.scarboroughcoral.c2c.model.entity.composite_id;
+package top.scarboroughcoral.c2c.model.entity;
 
 import javax.persistence.*;
 
@@ -9,7 +9,7 @@ public class HouseStatus {
     @GeneratedValue
     @Column(name = "house_status_id")
     private Integer houseStatusId;
-    @Column(name = "hosue_status")
+    @Column(name = "house_status")
     private String houseStatus;
 
     public HouseStatus() {

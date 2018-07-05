@@ -12,6 +12,7 @@ import top.scarboroughcoral.c2c.repository.HouseRepository;
 import top.scarboroughcoral.c2c.repository.House_Of_RenterRepository;
 import top.scarboroughcoral.c2c.service.HouseService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 

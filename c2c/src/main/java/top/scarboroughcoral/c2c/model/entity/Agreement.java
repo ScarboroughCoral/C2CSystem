@@ -1,4 +1,4 @@
-package top.scarboroughcoral.c2c.model.entity.composite_id;
+package top.scarboroughcoral.c2c.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
