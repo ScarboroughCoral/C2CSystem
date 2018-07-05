@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.scarboroughcoral.c2c.model.dto.HouseMsgDTO;
 import top.scarboroughcoral.c2c.model.dto.RentDTO;
+import top.scarboroughcoral.c2c.model.dto.RenterHouseMsgDTO;
 import top.scarboroughcoral.c2c.model.entity.House;
 import top.scarboroughcoral.c2c.model.entity.HouseType;
 import top.scarboroughcoral.c2c.model.entity.HousesOfRenters;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
 import top.scarboroughcoral.c2c.repository.HouseRepository;
+import top.scarboroughcoral.c2c.repository.HouseTypeRepository;
 import top.scarboroughcoral.c2c.repository.House_Of_RenterRepository;
 import top.scarboroughcoral.c2c.service.HouseService;
 
@@ -23,6 +25,8 @@ public class HouseServicelmpl implements HouseService {
     private HouseRepository houseRepository;
     @Autowired
     private House_Of_RenterRepository hrRepository;
+    @Autowired
+    private HouseTypeRepository houseTypeRepository;
 
     @Override
     public void getHouseMsg(BaseResult<List<HouseMsgDTO>> result) {
@@ -64,7 +68,7 @@ public class HouseServicelmpl implements HouseService {
 
     @Override
     public void getHouseType(BaseResult<List<HouseType>> result) {
-        List<HouseType> houseTypeList = houseRepository.getHouseType();
+        List<HouseType> houseTypeList = houseTypeRepository.getHouseType();
         if(houseTypeList == null){
             result.setMessage("网断啦shazi");
             result.setSuccess(false);
@@ -75,8 +79,8 @@ public class HouseServicelmpl implements HouseService {
     }
 
     @Override
-    public void getRenterHouseMsg(Integer userID, BaseResult<List<HouseMsgDTO>> result) {
-        List<HouseMsgDTO> hl = houseRepository.getRenterHouseMsg(userID);
+    public void getRenterHouseMsg(Integer userID, BaseResult<List<RenterHouseMsgDTO>> result) {
+        List<RenterHouseMsgDTO> hl = houseRepository.getRenterHouseMsg(userID);
         if(hl != null){
             result.setSuccess(true);
             result.setMessage("哇啊啊啊啊成成成功啦!!!!!!!!!!!");

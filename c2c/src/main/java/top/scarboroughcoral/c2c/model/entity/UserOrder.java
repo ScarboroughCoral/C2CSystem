@@ -18,6 +18,16 @@ public class UserOrder {
     private Date orderTime;
     @Column(name = "is_delete")
     private Boolean deleted;
+    @Column(name = "house_id")
+    private Integer houseID;
+
+    public Integer getHouseID() {
+        return houseID;
+    }
+
+    public void setHouseID(Integer houseID) {
+        this.houseID = houseID;
+    }
 
     public UserOrder() {
     }

@@ -4,25 +4,23 @@ import java.util.Date;
 
 public class HouseMsgDTO {
 
+    private Integer houseID;
+
     private String houseTypeDes;
     private String houseDes;
     private String houseAddr;
     private Double houseMoney;
 
-    private String orderPhone;
-    private Date orderTime;
 
     public HouseMsgDTO(){
 
     }
 
-    public HouseMsgDTO(String houseTypeDes, String houseDes, String houseAddr, String orderPhone, Double houseMoney, Date orderTime) {
+    public HouseMsgDTO(String houseTypeDes, String houseDes, String houseAddr,Double houseMoney) {
         this.houseTypeDes = houseTypeDes;
         this.houseDes = houseDes;
         this.houseAddr = houseAddr;
-        this.orderPhone = orderPhone;
         this.houseMoney = houseMoney;
-        this.orderTime = orderTime;
     }
 
     public String getHouseTypeDes() {
@@ -49,13 +47,6 @@ public class HouseMsgDTO {
         this.houseAddr = houseAddr;
     }
 
-    public String getOrderPhone() {
-        return orderPhone;
-    }
-
-    public void setOrderPhone(String orderPhone) {
-        this.orderPhone = orderPhone;
-    }
 
     public Double getHouseMoney() {
         return houseMoney;
@@ -65,11 +56,4 @@ public class HouseMsgDTO {
         this.houseMoney = houseMoney;
     }
 
-    public Date getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(Date orderTime) {
-        this.orderTime = orderTime;
-    }
 }

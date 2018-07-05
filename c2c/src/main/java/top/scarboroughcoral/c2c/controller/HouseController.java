@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.scarboroughcoral.c2c.model.dto.HouseMsgDTO;
 import top.scarboroughcoral.c2c.model.dto.RentDTO;
+import top.scarboroughcoral.c2c.model.dto.RenterHouseMsgDTO;
 import top.scarboroughcoral.c2c.model.entity.HouseType;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
 import top.scarboroughcoral.c2c.service.HouseService;
@@ -34,8 +35,8 @@ public class HouseController {
     }
 
     @PostMapping("/renterHouseMsg")
-    public BaseResult<List<HouseMsgDTO>> getRenterHouseMsg(@RequestParam("userID") int  userID){
-        BaseResult<List<HouseMsgDTO>> r = new BaseResult<>();
+    public BaseResult<List<RenterHouseMsgDTO>> getRenterHouseMsg(@RequestParam("userID") int  userID){
+        BaseResult<List<RenterHouseMsgDTO>> r = new BaseResult<>();
         houseService.getRenterHouseMsg(userID,r);
         return r;
     }

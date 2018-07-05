@@ -14,8 +14,6 @@ public class House {
     private Integer houseTypeId;
     @Column(name = "house_status_id")
     private Integer houseStatusId;
-    @Column(name = "order_id")
-    private Integer orderId;
     @Column(name = "hold_number")
     private Integer holdNumber;
     private Double price;
@@ -53,13 +51,6 @@ public class House {
         this.houseStatusId = houseStatusId;
     }
 
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
 
     public Integer getHoldNumber() {
         return holdNumber;
