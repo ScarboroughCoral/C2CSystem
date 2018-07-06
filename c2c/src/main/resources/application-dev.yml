@@ -4,4 +4,4 @@ server:
     context-path: /c2c
 
 ResourcePath: /home/scarborough_coral/MNTS/files/
-getResourcePath: http:localhost:9797/vote/file/
+getResourcePath: http:localhost:9797/c2c/file/
