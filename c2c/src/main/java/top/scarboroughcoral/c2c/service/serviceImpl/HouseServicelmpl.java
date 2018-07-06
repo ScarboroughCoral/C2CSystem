@@ -14,7 +14,6 @@ import top.scarboroughcoral.c2c.repository.HouseTypeRepository;
 import top.scarboroughcoral.c2c.repository.House_Of_RenterRepository;
 import top.scarboroughcoral.c2c.service.HouseService;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -45,7 +44,7 @@ public class HouseServicelmpl implements HouseService {
     public void rentHouse(RentDTO rentDTO, BaseResult<Object> result) {
         House house = new House();
         house.setHouseAddr(rentDTO.getHouseAddr());
-        house.setHouseDesc(rentDTO.getHouseDecs());
+        house.setHouseDesc(rentDTO.getHouseDesc());
         house.setHouseArea(rentDTO.getHouseArea());
         house.setPrice(rentDTO.getPrice());
         house.setHouseStatusId(rentDTO.getHouseStateID());

@@ -51,10 +51,9 @@ public class UserController {
     }
 
     @PostMapping(value = "/logout")
-    public BaseResult<AdminDTO> logout(@RequestParam("username") String  username,
-                                       @RequestParam("password") String password){
+    public BaseResult<AdminDTO> logout(@RequestParam("userID") Integer userID){
         BaseResult<AdminDTO> result = new BaseResult<>();
-        userService.logout(username,password,result);
+        userService.logout(userID,result);
         return result;
     }
 

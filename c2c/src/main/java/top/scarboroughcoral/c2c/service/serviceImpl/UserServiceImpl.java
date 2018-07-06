@@ -24,9 +24,9 @@ public class UserServiceImpl implements UserService {
     public void login(String loginName, String password, BaseResult<LoginDTO> result) {
         User user = userRepository.findByLogin(loginName,password);
         if(user != null){
-            user.setToken("Online");
+            user.setToken(new Date().getTime()+"");
             userRepository.save(user);
-            LoginDTO loginDTO = new LoginDTO(user.getUsername(),user.getUserId(),user.getName());
+            LoginDTO loginDTO = new LoginDTO(user.getUsername(),user.getUserId(),user.getName(),user.getToken());
             result.setData(loginDTO);
             result.setSuccess(true);
             result.setMessage("登陆成功");
@@ -36,13 +36,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void logout(String username, String password, BaseResult<AdminDTO> result) {
-        User user = userRepository.findByLogin(username,password);
-        user.setToken("notOnline");
+    public void logout(Integer userId, BaseResult<AdminDTO> result) {
+        User user = userRepository.getOne(userId);
+        user.setToken(null);
         userRepository.save(user);
         result.setSuccess(true);
         result.setMessage("登出成功");
-        result.setData(new AdminDTO(username));
+//        result.setData(new AdminDTO(username));
     }
 
     @Override

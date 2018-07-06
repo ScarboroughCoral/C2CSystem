@@ -8,21 +8,21 @@ public class RentDTO {
     Integer holdNum;
     Double price;
     Double houseArea;
-    String houseDecs;
+    String houseDesc;
     String houseAddr;
 
     public RentDTO() {
 
     }
 
-    public RentDTO(Integer userId, Integer houseTypeID, Integer houseStateID, Integer holdNum, Double price, Double houseArea, String houseDecs, String houseAddr) {
+    public RentDTO(Integer userId, Integer houseTypeID, Integer houseStateID, Integer holdNum, Double price, Double houseArea, String houseDesc, String houseAddr) {
         this.userId = userId;
         this.houseTypeID = houseTypeID;
         this.houseStateID = houseStateID;
         this.holdNum = holdNum;
         this.price = price;
         this.houseArea = houseArea;
-        this.houseDecs = houseDecs;
+        this.houseDesc = houseDesc;
         this.houseAddr = houseAddr;
     }
 
@@ -74,12 +74,12 @@ public class RentDTO {
         this.houseArea = houseArea;
     }
 
-    public String getHouseDecs() {
-        return houseDecs;
+    public String getHouseDesc() {
+        return houseDesc;
     }
 
-    public void setHouseDecs(String houseDecs) {
-        this.houseDecs = houseDecs;
+    public void setHouseDesc(String houseDesc) {
+        this.houseDesc = houseDesc;
     }
 
     public String getHouseAddr() {

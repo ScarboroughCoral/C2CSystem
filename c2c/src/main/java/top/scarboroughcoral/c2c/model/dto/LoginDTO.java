@@ -7,6 +7,7 @@ public class LoginDTO {
     private String username;
     private int userID;
     private String name;
+    private String token;
 
     public LoginDTO() {
     }
@@ -15,6 +16,21 @@ public class LoginDTO {
         this.userID = userID;
         this.username = username;
         this.name = name;
+    }
+
+    public LoginDTO(String username, int userID, String name, String token) {
+        this.username = username;
+        this.userID = userID;
+        this.name = name;
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getUsername() {

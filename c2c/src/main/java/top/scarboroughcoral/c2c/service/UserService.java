@@ -12,7 +12,7 @@ public interface UserService {
 
     void login(String loginName, String password, BaseResult<LoginDTO> result);
 
-    void logout(String username,String password, BaseResult<AdminDTO> result);
+    void logout(Integer userId, BaseResult<AdminDTO> result);
 
     void admin(String loginName, String password, BaseResult<AdminDTO> result);
 

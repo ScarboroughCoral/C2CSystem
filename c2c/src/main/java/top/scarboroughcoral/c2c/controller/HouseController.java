@@ -28,7 +28,8 @@ public class HouseController {
     }
 
     @PostMapping("/rentHouse")
-    public BaseResult<Object> rentHouse(@RequestBody(required = true)RentDTO rentDTO){
+    public BaseResult<Object> rentHouse(@RequestBody RentDTO rentDTO){
+        System.out.println(rentDTO.getUserId());
         BaseResult<Object> result = new BaseResult<>();
         houseService.rentHouse(rentDTO,result);
         return result;
