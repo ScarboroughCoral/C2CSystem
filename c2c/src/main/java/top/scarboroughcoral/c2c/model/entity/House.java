@@ -23,6 +23,16 @@ public class House {
     private String houseDesc;
     @Column(name = "house_addr")
     private String houseAddr;
+    @Column(name = "house_district_id")
+    private Integer districtId;
+
+    public Integer getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(Integer districtId) {
+        this.districtId = districtId;
+    }
 
     public House() {
     }

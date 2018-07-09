@@ -2,11 +2,13 @@ package top.scarboroughcoral.c2c.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import top.scarboroughcoral.c2c.model.dto.AddressDTO;
 import top.scarboroughcoral.c2c.model.dto.HouseMsgDTO;
 import top.scarboroughcoral.c2c.model.dto.RentDTO;
 import top.scarboroughcoral.c2c.model.dto.RenterHouseMsgDTO;
 import top.scarboroughcoral.c2c.model.entity.HouseType;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
+import top.scarboroughcoral.c2c.service.AddressService;
 import top.scarboroughcoral.c2c.service.HouseService;
 import top.scarboroughcoral.c2c.util.ResultUtil;
 
@@ -18,6 +20,7 @@ public class HouseController {
 
     @Autowired
     private HouseService houseService;
+
 
 
     @GetMapping("/getHouseInfo")
@@ -48,5 +51,6 @@ public class HouseController {
         houseService.getHouseType(r);
         return r;
     }
+
 
 }
