@@ -1,6 +1,7 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
+import Cookies from "js-cookie";
 const user = {
   state: {
     token: getToken(),
@@ -31,9 +32,11 @@ const user = {
       return new Promise((resolve, reject) => {
         login(loginName, userInfo.password).then(response => {
           const data = response.data
+          Cookies.set('userID',response.data.userID)
           setToken(data.token)
           commit('SET_TOKEN', data.token)
           resolve()
+          location.reload()
         }).catch(error => {
           reject(error)
         })
@@ -60,17 +63,17 @@ const user = {
     },
 
     // 登出
-    LogOut({ commit, state }) {
-      // return new Promise((resolve, reject) => {
-      //   logout(state.token).then(() => {
-      //     commit('SET_TOKEN', '')
-      //     commit('SET_ROLES', [])
-      //     removeToken()
-      //     resolve()
-      //   }).catch(error => {
-      //     reject(error)
-      //   })
-      // })
+    LogOut({ commit}, userID ) {
+      return new Promise((resolve, reject) => {
+        logout(userID).then(() => {
+          commit('SET_TOKEN', '')
+          commit('SET_ROLES', [])
+          removeToken()
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
     },
 
     // 前端 登出

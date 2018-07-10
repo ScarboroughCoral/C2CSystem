@@ -13,8 +13,8 @@ module.exports = {
     proxyTable: {
       "/c2c/*": {
           //这里将相应的匹配项更换为方法名的匹配，如方法为“./fanghh/getIdXXXXX”，那就"fanghh"
-          // target: "http://10.245.150.40:9797", //这里更改你的相应的端口，如后端端口在8081，就改成8081
-          target: "http://localhost:9999", 
+          target: "http://101.132.161.199:9999", //这里更改你的相应的端口，如后端端口在8081，就改成8081
+          // target: "http://localhost:9999", 
           secure: false,
           changeOrigin: true
       },

@@ -1,25 +1,6 @@
 <template>
   <div class="app-container">
-    <el-tag>评委管理</el-tag>
-    <div class="filter-container">
-      <el-button type="primary"  icon="el-icon-refresh" @click="refreshList">刷新列表</el-button>
-      <el-button type="primary" @click="handleCreate" icon="el-icon-circle-plus">添加评委</el-button>
-      <el-button type="primary" icon="el-icon-check" disabled>选择组别</el-button>
-      <el-button type="primary" @click="handleUpdate" disabled  icon="el-icon-edit">修改信息</el-button>
-      <el-button type="danger"  icon="el-icon-delete" disabled>删除评委</el-button>
-    </div>
-
-    <div class="filter-bar">
-      <el-select v-model="nowVote" filterable placeholder="请选择投票"
-      @change="fetchDataByVote">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-    </div>
+   
     <el-table :data="list" v-loading.body="listLoading"
     @selection-change="handleSelectionChange"
      element-loading-text="Loading" border fit highlight-current-row
@@ -41,17 +22,17 @@
           <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="phone">
+      <el-table-column align="center" label="手机号">
         <template slot-scope="scope">
           <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="zujin">
+      <el-table-column align="center" label="租金">
         <template slot-scope="scope">
           <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="fabushijian">
+      <el-table-column align="center" label="发布时间">
         <template slot-scope="scope">
           <span>{{scope.row.username}}</span>
         </template>
@@ -144,33 +125,31 @@ export default {
     }
   },
   created() {
-    this.nowMeetingId = Cookies.get('meetingId')
-    if(!this.nowMeetingId){
-      this.$message.warning('请先创建会议！')
-      this.listQuery.meetingId = this.nowMeetingId
-      this.fetchData()
-      return
-    }
-    this.listQuery.meetingId = this.nowMeetingId
-    this.fetchData()
-    fetchList(this.nowMeetingId).then(response=>{
-      if (response.success) {
-        for (let index = 0; index < response.data.length; index++) {
-          const element = response.data[index];
-          this.options.push({
-            value:element.vote_id,
-            label:element.title
-          })
-        }
-      } else {
-        this.$notify({
-          title: '提示',
-          message: '当前无投票！请先创建投票！再切换评委能否投票！',
-          duration: 0,
-          type: 'warning'
+
+        this.$alert('该功能暂未开放！!',{
+            callback:function () {
+              location.href = '/#/dashboard'
+            }
         });
-      }
-    })
+    // this.fetchData()
+    // fetchList(this.nowMeetingId).then(response=>{
+    //   if (response.success) {
+    //     for (let index = 0; index < response.data.length; index++) {
+    //       const element = response.data[index];
+    //       this.options.push({
+    //         value:element.vote_id,
+    //         label:element.title
+    //       })
+    //     }
+    //   } else {
+    //     this.$notify({
+    //       title: '提示',
+    //       message: '当前无投票！请先创建投票！再切换评委能否投票！',
+    //       duration: 0,
+    //       type: 'warning'
+    //     });
+    //   }
+    // })
   },
   methods: {
     fetchData() {

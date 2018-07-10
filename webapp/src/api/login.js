@@ -1,13 +1,13 @@
 import request from '@/utils/request'
 import md5 from 'md5'
 
-export function login(username, password) {
+export function login(loginName, password) {
   return request({
     url: '/login',
     dataType:'JSON',
     method:'POST',
-    data: {
-      username,
+    params: {
+      loginName,
       password
     }
   })
@@ -21,10 +21,13 @@ export function getInfo(token) {
   })
 }
 
-export function logout() {
+export function logout(userID) {
   return request({
     url: '/logout',
-    method: 'post'
+    method: 'post',
+    params:{
+      userID
+    }
   })
 }
 

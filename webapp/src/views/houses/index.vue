@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
-    <el-tag>终端管理</el-tag>
+    <!-- <el-tag>终端管理</el-tag>
     <div class="filter-container">
       <el-button type="primary"  icon="el-icon-refresh" @click="freshList">刷新列表</el-button>
       <el-button type="primary" @click="handleCreate" icon="el-icon-circle-plus">添加终端</el-button>
       <el-button type="danger"  icon="el-icon-delete">删除终端</el-button>
       <el-button type="primary" icon="el-icon-sort" @click="handleExchangeMeeting">参会反转</el-button>
-    </div>
+    </div> -->
     <el-table :data="list" 
     v-loading.body="listLoading" 
     element-loading-text="Loading" 
@@ -18,34 +18,34 @@
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column align="center" label="房源类型">
         <template slot-scope="scope">
-          <span>{{scope.row.terminal_sequence}}</span>
+          <span>{{scope.row.houseTypeDes}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="房源简介">
         <template slot-scope="scope">
-          <span>{{scope.row.terminal_sequence}}</span>
+          <span>{{scope.row.houseDes}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="房源所在地">
         <template slot-scope="scope">
-          <span>{{scope.row.terminal_sequence}}</span>
+          <span>{{scope.row.houseAddr}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="phone">
+      <!-- <el-table-column align="center" label="联系方式">
         <template slot-scope="scope">
-          <span>{{scope.row.terminal_sequence}}</span>
+          <span>{{scope.row.orderPhone||暂无}}</span>
         </template>
-      </el-table-column>
-      <el-table-column align="center" label="zujin">
+      </el-table-column> -->
+      <el-table-column align="center" label="租金">
         <template slot-scope="scope">
-          <span>{{scope.row.terminal_sequence}}</span>
+          <span>{{scope.row.houseMoney}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="fabushijian">
+      <!-- <el-table-column align="center" label="发布时间">
         <template slot-scope="scope">
-          <span>{{scope.row.terminal_sequence}}</span>
+          <span>{{(new Date(scope.row.orderTime))}}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column class-name="status-col" label="终端状态" align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{scope.row.terminal_status}}</el-tag>
@@ -54,7 +54,7 @@
 
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.vote_status!='1'" type="primary" size="mini" @click="" >details</el-button>
+          <el-button v-if="scope.row.vote_status!='1'" type="primary" size="mini" @click="" >详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -78,7 +78,8 @@
 
 <script>
 import { getListTerminals,addTerminal,changeTerminalMeeting } from '@/api/terminal'
-import Cookies from "js-cookie";
+import { listHouses } from "@/api/house";
+import { parseTime } from '@/utils'
 
 export default {
   data() {
@@ -117,20 +118,18 @@ export default {
         false: '否'
       }
       return statusMap[status]
+    },
+    parseTimeFilter(time){
+      return parseTime(time)
     }
   },
   created() {
-      this.nowMeetingId = Cookies.get('meetingId')
-      if(!this.nowMeetingId){
-        this.$message.warning('请先创建会议！')
-        this.nowMeetingId=-1
-      }
     this.fetchData()
   },
   methods: {
     fetchData() {
       this.listLoading = true
-      getListTerminals(this.nowMeetingId).then(response => {
+      listHouses().then(response => {
         this.list = response.data
         this.listLoading = false
       })

@@ -1,12 +1,12 @@
 <template>
   <div class="login-container">
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-      <h3 class="title">电子会议评审系统</h3>
+      <h3 class="title">C2C短租平台</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user" />
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="loginName" />
+        <el-input name="loginName" type="text" v-model="loginForm.loginName" autoComplete="on" placeholder="loginName" />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
@@ -31,7 +31,7 @@
     </el-form>
     <el-dialog style="z-index:10" title="注册" :visible.sync="dialogFormVisible">
       <el-form label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item label="用户名">
+        <el-form-item label="昵称">
           <el-input v-model="registForm.nickname"></el-input>
         </el-form-item>
         <el-form-item label="用户名">
@@ -51,7 +51,9 @@
 
 <script>
 import { isvalidUsername } from '@/utils/validate'
-import { regist } from '@/api/login'
+import { regist,login } from '@/api/login'
+
+import Cookies from "js-cookie";
 
 export default {
   name: 'login',
@@ -69,7 +71,7 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
+        loginName: '',
         password: ''
       },
       loginRules: {
@@ -96,20 +98,13 @@ export default {
       }
     },
     handleLogin() {
-            this.$router.push({ path: '/' })
-            return
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
             this.$router.push({ path: '/' })
-          }).catch(() => {
-            this.loading = false
           })
-        } else {
-          console.log('error submit!!')
-          return false
         }
       })
     },
@@ -121,7 +116,7 @@ export default {
         if (response.success) {
           this.$message.success(response.message)
           this.dialogFormVisible = false;
-          this.loginForm.username = this.registForm.username;
+          this.loginForm.loginName = this.registForm.username;
           this.loginForm.password = this.registForm.password;
         }else{
           this.$message.error(response.message)

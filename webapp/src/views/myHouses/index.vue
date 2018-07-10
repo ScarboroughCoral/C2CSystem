@@ -5,14 +5,14 @@
       <div class="filter-block vote-create">
         <el-tag>房源管理</el-tag>
         <div class="filter-container double-filter-container">
-            <el-button type="primary"  icon="el-icon-tickets" @click="handleTraditional">发布房源</el-button>
+            <el-button type="primary"  icon="el-icon-tickets" @click="handleHouse">发布房源</el-button>
         </div>
       </div>
       
     </div>
     <!-- 这是筛选栏 -->
     <div class="filter-bar">
-      <el-select disabled style="width: 200px;" class="filter-item" :placeholder="searchInputPlaceholder"></el-select>
+      <!-- <el-select disabled style="width: 200px;" class="filter-item" :placeholder="searchInputPlaceholder"></el-select> -->
     </div>
     <!-- 这是选票列表表格 -->
     <el-table :data="responseData" border fit highlight-current-row style="width: 100%">
@@ -20,358 +20,113 @@
       <el-table-column align="center" label="序号" type="index" width="55"></el-table-column>
       <el-table-column align="center" label="房源类型">
         <template slot-scope="scope">
-          <span>{{scope.row.vote_type_name}}</span>
+          <span>{{scope.row.houseTypeDes}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="房源简介">
         <template slot-scope="scope">
-          <span>{{scope.row.vote_type_name}}</span>
+          <span>{{scope.row.houseDecs}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="房源所在地">
         <template slot-scope="scope">
-          <span>{{scope.row.vote_type_name}}</span>
+          <span>{{scope.row.houseAddr}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="phone">
+      <el-table-column align="center" label="租金">
+        <template slot-scope="scope">
+          <span>{{scope.row.price}}</span>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column align="center" label="发布时间">
         <template slot-scope="scope">
           <span>{{scope.row.vote_type_name}}</span>
         </template>
-      </el-table-column>
-      <el-table-column align="center" label="zujin">
-        <template slot-scope="scope">
-          <span>{{scope.row.vote_type_name}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="fabushijian">
-        <template slot-scope="scope">
-          <span>{{scope.row.vote_type_name}}</span>
-        </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column align="center" label="状态">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.vote_status | statusFilter">{{scope.row.vote_status | voteStatusFilter}}</el-tag>
+          <el-tag :type="scope.row.houseStateDes | statusFilter">{{scope.row.houseStateDes}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.vote_status!='1'" type="primary" size="mini" @click="" disabled>编辑</el-button>
-          <el-button v-if="scope.row.vote_status=='0'" size="mini" type="success" @click="handlePublish(scope.$index,scope.row)">发布</el-button>
-          <el-button v-if="scope.row.vote_status!='0'" size="mini" type="info" @click="viewResult(scope.$index,scope.row)">结果</el-button>
-          <!-- <el-button size="mini" type="info" @click="viewResult(scope.$index,scope.row)">结果</el-button> -->
-          <el-button v-if="scope.row.vote_status!='1'" size="mini" type="danger" disabled>删除</el-button>
+          <el-button type="primary" size="mini" @click="">编辑</el-button>
+          <!-- <el-button size="mini" type="success">发布</el-button> -->
+          <el-button size="mini" type="danger">撤回</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <!-- 这是选票创建或修改弹框 -->
+    <!-- 这是发布房源或修改弹框 -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" top="5vh">
-      <!-- 这是简单选票创建 -->
-      <el-form v-if="dialogStatus === 'simpleCreate'" label-position="left" label-width="125px" >
-       <div v-show="steps['simpleCreate']==1" class="step-container">
-          <el-tag type="mini">选票属性</el-tag>
-          <div class="info-container">
-            <el-form-item label="投票内容">
-              <el-input v-model="simpleCreateForm.voteName"></el-input>
-            </el-form-item>
-            <el-form-item label="规则描述">
-              <el-input  v-model="simpleCreateForm.ruleDescription">
-                <el-button slot="append" icon="el-icon-printer">生成规则</el-button>
-              </el-input>
-              
-            </el-form-item>
-            <el-form-item label="弃权单列">
-              <el-tooltip :content="'当前状态: ' + abstainMap[simpleCreateForm.isAbstain]" placement="top">
-                <el-switch
-                  v-model="simpleCreateForm.isAbstain"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
-                  active-value=true
-                  inactive-value=false>
-                </el-switch>
-              </el-tooltip>
-            </el-form-item>
-          </div>
-          <el-tag type="mini">详细参数</el-tag>
-          <div class="info-container">
-            <el-form-item label="行数">
-              <el-input-number :min="0" v-model="simpleCreateForm.rowNumber"></el-input-number>
-            </el-form-item>
-            <el-form-item label="列数">
-              <el-input-number :min="0" v-model="simpleCreateForm.columnNumber"></el-input-number>
-            </el-form-item>
-            
-            <el-form-item label="最大优先推荐人数">
-              <el-input-number :min="0" v-model="simpleCreateForm.maxAgree"></el-input-number>
-            </el-form-item>
-          </div>
-       </div>
-       <div v-show="steps['simpleCreate']==2" class="step-container">
-         <el-tag type="mini">选票信息</el-tag>
-          <div class="info-container">
-            <el-row :gutter="20" type="flex" justify="space-around">
-              <h3>{{meetingForm.meetingName}}</h3>                                                                                                                                                                                                                                                                                                                                                                                                                         
-            </el-row>
-            <el-row :gutter="20">    
-              <el-col :span="10"><div class="grid-content bg-purple">投票限制：最多优先推荐人数为{{simpleCreateForm.minAgree}}</div></el-col>
-              <el-col :span="10">
-                <el-tag size="big" type="info">简单选票</el-tag>
-                <!-- <el-tag size="big" type="info">实名投票</el-tag> -->
-                <el-tag size="big" v-if="simpleCreateForm.isAbstain == 'true'" type="info">允许弃权</el-tag>
-              </el-col>
-            </el-row>
-          </div>
-          <el-tag type="mini">选票数据</el-tag>
-          <div class="info-container">
-            <el-row :gutter="20" type="flex" justify="space-around">
-              <el-col :span="8"><el-button :disabled="true"size="small">添加行</el-button></el-col>
-              <el-col :span="8"><el-button :disabled="true"size="small">添加列</el-button></el-col>
-              <el-col :span="8"><el-button :disabled="true"size="small">删除行</el-button></el-col>
-              <el-col :span="8"><el-button :disabled="true"size="small">删除列</el-button></el-col>
-            </el-row>
-            <upload-excel-component @on-selected-file='selected'></upload-excel-component>
-            <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
-              <el-table-column v-for='item of tableHeader' :prop="item" :label="item" :key='item'>
-              </el-table-column>
-            </el-table>
-          </div>
-       </div>
-      </el-form>
-      <!-- 这是传统选票创建 -->
-      <el-form v-if="dialogStatus === 'traditionalCreate'" label-position="left"  label-width="100px" >
-        <div v-show="steps['traditionalCreate']==1" class="step-container">
-         
-          <el-tag type="mini">选票属性</el-tag>
-          <div class="info-container">
-            <el-form-item label="投票内容">
-              <el-input v-model="traditionalCreateForm.voteName"></el-input>
-            </el-form-item>
-            <el-form-item label="规则描述">
-              <el-input  v-model="traditionalCreateForm.ruleDescription">
-                <el-button slot="append" icon="el-icon-printer" @click="handleRuleGenerate">生成规则</el-button>
-              </el-input>
-              
-            </el-form-item>
-            <el-form-item label="弃权单列">
-              <el-tooltip :content="'当前状态: ' + abstainMap[traditionalCreateForm.isAbstain]" placement="top">
-                <el-switch
-                  v-model="traditionalCreateForm.isAbstain"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
-                  :active-value="1"
-                  :inactive-value="0">
-                </el-switch>
-              </el-tooltip>
-            </el-form-item>
-          </div>
-          <el-tag type="mini">详细参数</el-tag>
-          <div class="info-container">
-            <el-form-item label="行数">
-              <el-input-number :min="0" v-model="traditionalCreateForm.rowNumber"></el-input-number>
-            </el-form-item>
-            <el-form-item label="列数">
-              <el-input-number :min="0" v-model="traditionalCreateForm.columnNumber"></el-input-number>
-            </el-form-item>
-            <el-form-item label="同意票数">
-              <el-input-number :min="0" v-model="traditionalCreateForm.minAgree"></el-input-number>
-              至
-              <el-input-number :min="0"   v-model="traditionalCreateForm.maxAgree"></el-input-number>
-            </el-form-item>
-            <el-form-item label="通过要求">
-              <el-input-number :min="0" v-model="traditionalCreateForm.passRateChild"></el-input-number>
-              ／
-              <el-input-number :min="1" v-model="traditionalCreateForm.passRateMother"></el-input-number>
-              <span>（含）</span>
-              <el-tooltip :content="'当前状态: ' + containMap[traditionalCreateForm.isContain]" placement="top">
-                <el-switch
-                  v-model="traditionalCreateForm.isContain"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
-                  :active-value="1"
-                  :inactive-value="0">
-                </el-switch>
-              </el-tooltip>
-            </el-form-item>
-            <el-form-item label="最大通过人数">
-              <el-input-number :min="0" v-model="traditionalCreateForm.maxPassNumber"></el-input-number>
-            </el-form-item>
-          </div>
-        </div>
-        <div v-show="steps['traditionalCreate']==2" class="step-container">
-          <el-tag type="mini">选票信息</el-tag>
-          <div class="info-container">
-            <el-row :gutter="20" type="flex" justify="space-around">
-              <h3>{{meetingForm.meetingName}}</h3>                                                                                                                                                                                                                                                                                                                                                                                                                         
-            </el-row>
-            <el-row :gutter="20">                                                                                                                                                   
-              <el-col :span="10"><div class="grid-content bg-purple">通过条件：{{traditionalCreateForm.passRateChild}}/{{traditionalCreateForm.passRateMother}}可投票者以上同意</div></el-col>
-              <el-col :span="10">
-                <el-tag size="big" type="info">传统选票</el-tag>
-                <!-- <el-tag size="big" type="info">实名投票</el-tag> -->
-                <el-tag size="big" v-if="traditionalCreateForm.isAbstain" type="info">允许弃权</el-tag>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="10"><div class="grid-content bg-purple">投票限制：每人可同意{{traditionalCreateForm.minAgree}}至{{traditionalCreateForm.maxAgree}}项</div></el-col>
-            </el-row>
-          </div>
-          <el-tag type="mini">选票数据</el-tag>
-          <div class="info-container">
-            <el-row :gutter="20" type="flex" justify="space-around">
-              <el-col :span="8"><el-button :disabled="true"size="small">添加行</el-button></el-col>
-              <el-col :span="8"><el-button :disabled="true"size="small">添加列</el-button></el-col>
-              <el-col :span="8"><el-button :disabled="true"size="small">删除行</el-button></el-col>
-              <el-col :span="8"><el-button :disabled="true"size="small">删除列</el-button></el-col>
-            </el-row>
-            <upload-excel-component @on-selected-file='selected'></upload-excel-component>
-            <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px; height:450px; overflow-y:scroll">
-              <el-table-column :sortable="true" @sort-method="tableDataSort" v-for='(item,index) of tableHeader' v-if="index==0"  :prop="item" :label="item" :key='item'>
-              </el-table-column>
-              <el-table-column  v-for='(item,index) of tableHeader' v-if="index!=0" :prop="item" :label="item" :key='item'>
-              </el-table-column>
-            </el-table>
-          </div>
-        </div>
-      </el-form>
-      <!-- 这是排名选票创建 -->
-      <el-form v-if="dialogStatus === 'rankCreate'" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <div v-show="steps['rankCreate']==1" class="step-container">
-          <el-tag type="mini">选票属性</el-tag>
-          <div class="info-container">
-            <el-form-item label="投票内容">
-              <el-input v-model="rankCreateForm.voteName"></el-input>
-            </el-form-item>
-            <el-form-item label="规则描述">
-              <el-input  v-model="rankCreateForm.ruleDescription">
-                <el-button slot="append" icon="el-icon-printer">生成规则</el-button>
-              </el-input>
-              
-            </el-form-item>
-            <el-form-item label="弃权单列">
-              <el-tooltip :content="'当前状态: ' + abstainMap[rankCreateForm.isAbstain]" placement="top">
-                <el-switch
-                  v-model="rankCreateForm.isAbstain"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
-                  active-value=true
-                  inactive-value=false>
-                </el-switch>
-              </el-tooltip>
-            </el-form-item>
-          </div>
-          <el-tag type="mini">详细参数</el-tag>
-          <div class="info-container">
-            <el-form-item label="行数">
-              <el-input-number :min="0" v-model="rankCreateForm.rowNumber"></el-input-number>
-            </el-form-item>
-            <el-form-item label="列数">
-              <el-input-number :min="0" v-model="rankCreateForm.columnNumber"></el-input-number>
-            </el-form-item>
-            <el-form-item label="同意票数">
-              <el-input-number :min="0" v-model="rankCreateForm.minAgree"></el-input-number>
-              至
-              <el-input-number :min="0"   v-model="rankCreateForm.maxAgree"></el-input-number>
-            </el-form-item>
-            <el-form-item label="通过要求">
-              <el-input-number :min="0" v-model="rankCreateForm.passRateChild"></el-input-number>
-              ／
-              <el-input-number :min="1" v-model="rankCreateForm.passRateMother"></el-input-number>
-            </el-form-item>
-            <el-form-item label="最大通过人数">
-              <el-input-number :min="0" v-model="rankCreateForm.maxPassNumber"></el-input-number>
-            </el-form-item>
-          </div>
-       </div>
-       <div v-show="steps['rankCreate']==2" class="step-container">
-         <el-tag type="mini">选票信息</el-tag>
-          <div class="info-container">
-            <el-row :gutter="20" type="flex" justify="space-around">
-              <h3>{{meetingForm.meetingName}}</h3>                                                                                                                                                                                                                                                                                                                                                                                                                         
-            </el-row>
-            <el-row :gutter="20">                                                                                                                                                   
-              <el-col :span="10"><div class="grid-content bg-purple">通过条件：{{rankCreateForm.passRateChild}}/{{rankCreateForm.passRateMother}}可投票者以上同意</div></el-col>
-              <el-col :span="10">
-                <el-tag size="big" type="info">排名选票</el-tag>
-                <el-tag size="big" type="info">实名投票</el-tag>
-                <el-tag size="big" v-if="rankCreateForm.isAbstain == true" type="info">允许弃权</el-tag>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="10"><div class="grid-content bg-purple">投票限制：每人可同意{{rankCreateForm.minAgree}}至{{rankCreateForm.maxAgree}}项</div></el-col>
-            </el-row>
-          </div>
-          <el-tag type="mini">选票数据</el-tag>
-          <div class="info-container">
-            <el-row :gutter="20" type="flex" justify="space-around">
-              <el-col :span="8"><el-button :disabled="true"size="small">添加行</el-button></el-col>
-              <el-col :span="8"><el-button :disabled="true"size="small">添加列</el-button></el-col>
-              <el-col :span="8"><el-button :disabled="true"size="small">删除行</el-button></el-col>
-              <el-col :span="8"><el-button :disabled="true"size="small">删除列</el-button></el-col>
-            </el-row>
-            <upload-excel-component @on-selected-file='selected'></upload-excel-component>
-            <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
-              <el-table-column v-for='item of tableHeader' :prop="item" :label="item" :key='item'>
-              </el-table-column>
-            </el-table>
-          </div>
-       </div>
-      </el-form>
-      <!-- 开始会议，可重新编辑 -->
-      <el-form  v-if="dialogStatus === 'meetingCreate'" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item label="会议名称">
-          <el-input readonly v-model="meetingForm.meetingName"></el-input>
+      <el-form v-if="dialogStatus === 'addHouse'" label-position="left"  label-width="100px" >
+        <el-form-item label="房源类型">
+          <el-select v-model="houseForm.houseTypeID" placeholder="请选择">
+            <el-option
+              v-for="item in houseTypes"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="会议时间">
+        <el-form-item label="租金">
+          <el-input-number v-model="houseForm.price" :precision="2" :step="0.01" ></el-input-number>
+        </el-form-item>
+        <el-form-item label="房间面积">
+          <el-input-number v-model="houseForm.houseArea" :precision="2" :step="0.01" ></el-input-number>
+        </el-form-item>
+        <el-form-item label="容纳人数">
+          <el-input-number v-model="houseForm.holdNum" :precision="2" :step="1" ></el-input-number>
+        </el-form-item>
+        <el-form-item label="房间图片">
+          <el-upload
+            action="https://jsonplaceholder.typicode.com/posts/"
+            list-type="picture-card"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="">
+          </el-dialog>
+        </el-form-item>
+        <el-form-item label="出租时间">
           <el-date-picker
-            v-model="meetingForm.meetingTime"
-            readonly 
-            type="datetime"
-            placeholder="选择日期时间"
-            default-time="12:00:00">
+            v-model="value5"
+            type="datetimerange"
+            :picker-options="pickerOptions2"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            align="right">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="会议地点">
-          <el-input readonly v-model="meetingForm.meetingAddr"></el-input>
+        <el-form-item label="房源所在地">
+           <el-cascader
+            expand-trigger="hover"
+            placeholder="请选择地区"
+            size="medium"
+            clearable
+            :options="options"
+            v-model="selectedOptions2"
+            @change="handleChange">
+          </el-cascader>
+          <!-- <el-input v-model="houseForm.houseAddr"></el-input> -->
         </el-form-item>
-        <el-form-item label="与会评委">
-          <el-table
-            border
-            :data="usersMeeting"
-            style="width: 100% ; overflow:scroll;height:220px">
-            <el-table-column
-              label="工号">
-              <template slot-scope="scope">
-                {{scope.row.username}}
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="姓名">
-
-              <template slot-scope="scope">
-                <span>{{scope.row.loginName}}</span>
-              </template>
-            </el-table-column>
-          </el-table>
+        <el-form-item label="房源简介">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4}"
+            placeholder="请输入内容"
+            v-model="houseForm.houseDesc">
+          </el-input>
         </el-form-item>
-        <el-form-item label="与会机器">
-          <el-table
-          :data="terminalsMeeting"
-            border
-            style="width: 100% ; overflow:scroll;height:220px">
-            <el-table-column
-              label="序号">
-              <template slot-scope="scope">
-                <span>{{scope.row.terminal_sequence}}</span>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-form-item>
+        
+        
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="handleCancel">取消</el-button>
-        <el-button v-if="steps[dialogStatus]!=1&&dialogStatus!='meetingCreate'" type="primary" @click="handleLastStep(dialogStatus)">上一步</el-button>
-        <el-button v-else-if="steps[dialogStatus]!=2&&dialogStatus!='meetingCreate'" type="primary"  @click="handleNextStep(dialogStatus)">下一步</el-button>
-        <el-button v-if="['simpleCreate','traditionalCreate','rankCreate'].indexOf(dialogStatus)>-1&&steps[dialogStatus]==2" type="primary" :disabled="unclickable" @click="handleCreate">{{clickabletext}}</el-button>
-        <el-button v-if="dialogStatus=='meetingCreate'" type="primary" @click="handleMeetingStart">开始会议</el-button>
+        <el-button type="primary" :disabled="unclickable" @click="handlePublish">{{clickabletext}}</el-button>
         <!-- <el-button v-else type="primary" >更新</el-button> -->
       </div>
     </el-dialog>
@@ -384,18 +139,6 @@
             <h2 class="result-title">{{nowRecord.title}}</h2>
           </el-header>
           <el-main>
-            <p>{{nowRecord.sub_title}}</p>
-            <div>
-              <el-button type="success" size="small" @click="refreshResult">刷新</el-button>
-              <el-button type="primary" size="small">详情</el-button>
-              <el-button v-if="isShowVoters" type="primary" size="small" @click="isShowVoters=!isShowVoters">隐藏投票人</el-button>
-              <el-button v-else type="primary" size="small" @click="isShowVoters=!isShowVoters">显示投票人</el-button>
-              <el-button v-if="isShowResult" type="primary" size="small" @click="isShowResult=!isShowResult">隐藏结果</el-button>
-              <el-button v-else type="primary" size="small" @click="isShowResult=!isShowResult">显示结果</el-button>
-              <el-tag type="danger" style="margin:0 20px;">{{voteResult.usersNotVote.length}}人已投</el-tag>
-              <el-button type="primary" size="small" icon="el-icon-download" @click="exportVoteResult">导出结果</el-button>
-              <el-button type="danger" size="small" @click="endNowVote" :disabled="nowRecord.vote_status==2">结束</el-button>
-            </div>
             <el-table 
             
              style="margin-top:10px;height:450px; overflow-y:scroll" border :data="voteResult.line">
@@ -436,86 +179,266 @@
 </template>
 
 <script>
-import { fetchList,createVote,getTraditionalResult,changeVoteStatus,exportExcel } from '@/api/vote'
-import { startMeeting,endMeeting } from "@/api/meeting";
-import { getList } from "@/api/judges";
-import { getListTerminals } from '@/api/terminal'
-import UploadExcelComponent from '@/components/UploadExcel/index.vue'
 import Cookies from "js-cookie";
 import { parseTime } from '@/utils'
+import { publishHouse ,getHouseType,renterHouseMsg} from "@/api/house";
 
 export default {
   name: 'vote',
-  components: { UploadExcelComponent },
   data() {
     return {
+      pickerOptions2: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+        value4: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
+        value5: '',
+       options: [{
+          value: 'zhinan',
+          label: '指南',
+          children: [{
+            value: 'shejiyuanze',
+            label: '设计原则',
+            children: [{
+              value: 'yizhi',
+              label: '一致'
+            }, {
+              value: 'fankui',
+              label: '反馈'
+            }, {
+              value: 'xiaolv',
+              label: '效率'
+            }, {
+              value: 'kekong',
+              label: '可控'
+            }]
+          }, {
+            value: 'daohang',
+            label: '导航',
+            children: [{
+              value: 'cexiangdaohang',
+              label: '侧向导航'
+            }, {
+              value: 'dingbudaohang',
+              label: '顶部导航'
+            }]
+          }]
+        }, {
+          value: 'zujian',
+          label: '组件',
+          children: [{
+            value: 'basic',
+            label: 'Basic',
+            children: [{
+              value: 'layout',
+              label: 'Layout 布局'
+            }, {
+              value: 'color',
+              label: 'Color 色彩'
+            }, {
+              value: 'typography',
+              label: 'Typography 字体'
+            }, {
+              value: 'icon',
+              label: 'Icon 图标'
+            }, {
+              value: 'button',
+              label: 'Button 按钮'
+            }]
+          }, {
+            value: 'form',
+            label: 'Form',
+            children: [{
+              value: 'radio',
+              label: 'Radio 单选框'
+            }, {
+              value: 'checkbox',
+              label: 'Checkbox 多选框'
+            }, {
+              value: 'input',
+              label: 'Input 输入框'
+            }, {
+              value: 'input-number',
+              label: 'InputNumber 计数器'
+            }, {
+              value: 'select',
+              label: 'Select 选择器'
+            }, {
+              value: 'cascader',
+              label: 'Cascader 级联选择器'
+            }, {
+              value: 'switch',
+              label: 'Switch 开关'
+            }, {
+              value: 'slider',
+              label: 'Slider 滑块'
+            }, {
+              value: 'time-picker',
+              label: 'TimePicker 时间选择器'
+            }, {
+              value: 'date-picker',
+              label: 'DatePicker 日期选择器'
+            }, {
+              value: 'datetime-picker',
+              label: 'DateTimePicker 日期时间选择器'
+            }, {
+              value: 'upload',
+              label: 'Upload 上传'
+            }, {
+              value: 'rate',
+              label: 'Rate 评分'
+            }, {
+              value: 'form',
+              label: 'Form 表单'
+            }]
+          }, {
+            value: 'data',
+            label: 'Data',
+            children: [{
+              value: 'table',
+              label: 'Table 表格'
+            }, {
+              value: 'tag',
+              label: 'Tag 标签'
+            }, {
+              value: 'progress',
+              label: 'Progress 进度条'
+            }, {
+              value: 'tree',
+              label: 'Tree 树形控件'
+            }, {
+              value: 'pagination',
+              label: 'Pagination 分页'
+            }, {
+              value: 'badge',
+              label: 'Badge 标记'
+            }]
+          }, {
+            value: 'notice',
+            label: 'Notice',
+            children: [{
+              value: 'alert',
+              label: 'Alert 警告'
+            }, {
+              value: 'loading',
+              label: 'Loading 加载'
+            }, {
+              value: 'message',
+              label: 'Message 消息提示'
+            }, {
+              value: 'message-box',
+              label: 'MessageBox 弹框'
+            }, {
+              value: 'notification',
+              label: 'Notification 通知'
+            }]
+          }, {
+            value: 'navigation',
+            label: 'Navigation',
+            children: [{
+              value: 'menu',
+              label: 'NavMenu 导航菜单'
+            }, {
+              value: 'tabs',
+              label: 'Tabs 标签页'
+            }, {
+              value: 'breadcrumb',
+              label: 'Breadcrumb 面包屑'
+            }, {
+              value: 'dropdown',
+              label: 'Dropdown 下拉菜单'
+            }, {
+              value: 'steps',
+              label: 'Steps 步骤条'
+            }]
+          }, {
+            value: 'others',
+            label: 'Others',
+            children: [{
+              value: 'dialog',
+              label: 'Dialog 对话框'
+            }, {
+              value: 'tooltip',
+              label: 'Tooltip 文字提示'
+            }, {
+              value: 'popover',
+              label: 'Popover 弹出框'
+            }, {
+              value: 'card',
+              label: 'Card 卡片'
+            }, {
+              value: 'carousel',
+              label: 'Carousel 走马灯'
+            }, {
+              value: 'collapse',
+              label: 'Collapse 折叠面板'
+            }]
+          }]
+        }, {
+          value: 'ziyuan',
+          label: '资源',
+          children: [{
+            value: 'axure',
+            label: 'Axure Components'
+          }, {
+            value: 'sketch',
+            label: 'Sketch Templates'
+          }, {
+            value: 'jiaohu',
+            label: '组件交互文档'
+          }]
+        }],
+        selectedOptions: [],
+        selectedOptions2: [],
+      dialogImageUrl: '',
+      dialogVisible: false,
       usersMeeting:[],
       terminalsMeeting:[],
       unclickable:false,
       clickabletext:'确认',
-      tableData: [],
-      isShowVoters:false,
-      isShowResult:false,
       tableHeader: [],
-      traditionalCreateForm:{
-        meetingId:0,
-        voteName:'',
-        vote_type_id:2,
-        ruleDescription:'',
-        isAbstain:0,
-        rowNumber:0,
-        columnNumber:0,
-        minAgree:0,
-        maxAgree:0,
-        passRateMother:1,
-        passRateChild:1,
-        maxPassNumber:0,
-        isContain:0,
-        table:{
-          header:[],
-          rows:[]
-        }
+      houseForm:{
+        userId:undefined,
+        price:0,
+        houseTypeID:undefined,
+        houseStateID:1,
+        holdNum:0,
+        houseDesc:'',
+        houseArea:0,
+        houseAddr:''
       },
-      simpleCreateForm:{
-        meetingId:0,
-        voteName:'',
-        vote_type_id:2,
-        ruleDescription:'',
-        isAbstain:true,
-        rowNumber:0,
-        columnNumber:0,
-        minAgree:0,
-        maxAgree:0,
-        passRateMother:1,
-        passRateChild:1,
-        maxPassNumber:0,
-        table:{
-          header:[],
-          rows:[]
+      houseTypes:[
+        {
+          value:1,
+          label:'海景房测试'
         }
-      },
-      rankCreateForm:{
-        meetingId:0,
-        voteName:'',
-        vote_type_id:2,
-        ruleDescription:'',
-        isAbstain:true,
-        rowNumber:0,
-        columnNumber:0,
-        minAgree:0,
-        maxAgree:0,
-        passRateMother:1,
-        passRateChild:1,
-        maxPassNumber:0,
-        table:{
-          header:[],
-          rows:[]
-        }
-      },
+      ],
       nowMeetingId:undefined,
       nowRecord:{},
       meetingStatus:0,
-      meetingStatusMap:['未开始','正在进行','已结束'],
       list: null,
       listLoading: true,
       voteTypeOptions: [1, 2, 3],
@@ -527,48 +450,17 @@ export default {
       },
       responseData: [],
       dialogFormVisible: false,
-      dialogStatus: 'simpleCreate',
+      dialogStatus: 'addHouse',
       listQuery: {
         page: 1,
         limit: 10,
         importance: undefined
       },
-      textMap: {
-        update: 'Edit',
-        simpleCreate: '添加简单选票',
-        traditionalCreate: '添加传统选票',
-        rankCreate: '添加排名选票',
-        meetingCreate: '创建会议',
+      textMap:{
+        addHouse:'发布房源'
       },
-      steps:{
-        simpleCreate:1,
-        traditionalCreate:1,
-        rankCreate:1
-      },
-      isAbstain:false,
-      abstainMap:{
-        1:"弃权单列开启",
-        0:"弃权单列关闭"
-      },
-      containMap:{
-        1:'包含',
-        0:'不包含'
-      },
-      meetingForm:{
-        meetingName:'',
-        meetingTime:'',
-        meetingAddr:''
-      },
-      voteResult:{
-        voteId:'',
-        usersNotVote:[],
-        receivedNum:'',
-        line:[]
-      },
-      changeVoteStatusForm:{
-        voteId:undefined,
-        status:undefined
-      }
+      userID:undefined
+     
     }
   },
   filters: {
@@ -578,7 +470,7 @@ export default {
         '1': 'info',
         deleted: 'danger'
       }
-      return statusMap[status]
+      return statusMap[status]||'primary'
     },
     voteStatusFilter(status){
 
@@ -587,15 +479,9 @@ export default {
     }
   },
   created() {
-    this.meetingStatus = Cookies.get('meetingStatus')
-    let meetingForm = Cookies.get('meetingForm')
-    if (meetingForm) {
-      this.meetingForm = JSON.parse(meetingForm)
-    }
+    this.userID = Cookies.get('userID')
     this.getList()
-    if(!this.nowMeetingId){
-      this.$message.warning('当前会议已结束！请先创建会议！')
-    }
+    this.houseForm.userId = this.userID
   },
   methods: {
     tableDataSort(a,b){
@@ -603,6 +489,16 @@ export default {
     },
     saveMeetingStatus(){
        Cookies.set('meetingStatus',this.meetingStatus)
+    },
+    handlePublish(){
+      publishHouse(this.houseForm).then(response => {
+        if (response.success) {
+          this.$message.success(response.message)
+          this.dialogFormVisible = false
+          this.getList()
+        }
+      })
+      this.getList()
     },
     selected(data) {
       this.tableData = data.results
@@ -618,160 +514,27 @@ export default {
         }
       }
     },
-    handleSimple(){
-      if (!this.nowMeetingId) {
-        this.$message.warning('当前会议已结束！请重新创建会议！')
-        return
-      }
-      this.dialogStatus = 'simpleCreate'
-      this.dialogFormVisible = true
-    },
-    handleTraditional(){
-      if (!this.nowMeetingId) {
-        this.$message.warning('当前会议已结束！请重新创建会议！')
-        return
-      }
-      this.dialogStatus = 'traditionalCreate'
+    handleHouse(){
+      this.dialogStatus = 'addHouse'
       this.dialogFormVisible = true;
-    },
-    handleRank(){
-      if (!this.nowMeetingId) {
-        this.$message.warning('当前会议已结束！请重新创建会议！')
-        return
-      }
-      this.dialogStatus = 'rankCreate'
-      this.dialogFormVisible = true;
-    },
-    handleCreate(){
-      switch (this.dialogStatus) {
-        case 'traditionalCreate':
-          this.handleTraditionalCreate()
-          break;
-      
-        default:
-          break;
-      }
-    },
-    handleTraditionalCreate(){
-      this.unclickable = true;
-      this.clickabletext = '正在创建中...'
-      this.traditionalCreateForm.meetingId = this.nowMeetingId
-      this.traditionalCreateForm.table.rows = this.tableData
-      this.traditionalCreateForm.table.header = this.tableHeader
-      createVote(this.traditionalCreateForm).then(response => {
-        if (response.success) {
-          this.$message.success(response.message)
-          this.dialogFormVisible = false
-          this.getList()
-          this.unclickable = false
-          this.clickabletext = '确认'
-        }else{
-          this.$message.error(response.message)
-        }
-      })
-    },
-    handleRuleGenerate(){
-      let traditionalForm = this.traditionalCreateForm;
-      this.traditionalCreateForm.ruleDescription = '同意票数'+
-                                                    (traditionalForm.isContain==0?'超过':'达到')+
-                                                    '有效票数'+
-                                                    traditionalForm.passRateChild+
-                                                    '/'+
-                                                    traditionalForm.passRateMother+
-                                                    '通过，每位评委可以同意'+
-                                                    traditionalForm.minAgree+
-                                                    '至'+
-                                                    traditionalForm.maxAgree+
-                                                    '人'
-    },
-
-    handleMeeting(){
-      this.dialogStatus = 'meetingCreate'
-
-       getList({
-        role:2,
-        meetingId:this.nowMeetingId
-       }).then(response =>{
-        if (response.success) {
-          for (let index = 0; index < response.data.length; index++) {
-            const element = response.data[index];
-            if (element.onMeeting) {
-              
-            this.usersMeeting.push(element)
-            }
+      getHouseType().then(response => {
+        this.houseTypes = []
+        if(response.success){
+          
+          for (let i = 0; i < response.data.length; i++) {
+            const element = response.data[i];
+              this.houseTypes.push({
+                value:element.houseTypeId,
+                label:element.houseType
+              })
           }
         }
       })
-      getListTerminals(this.nowMeetingId).then(response => {
-        if (response.success) {
-          for (let index = 0; index < response.data.length; index++) {
-            const element = response.data[index];
-            if (element.is_in_meeting) {
-              
-                this.terminalsMeeting.push(element)
-            }
-          }
-        }
-      })
-      this.dialogFormVisible = true;
     },
-    handleMeetingStart(){
-      startMeeting(this.nowMeetingId).then(response => {
-        if (response.success) {
-          this.$message.success(response.message)
-          this.meetingStatus = 1
-          console.log(this.meetingStatus)
-          this.saveMeetingStatus()
-          this.dialogFormVisible = false
-        }else{
-          this.$message.error(response.message)
-        }
-      })
-    },
-    handleMeetingEnd(){
-      this.$confirm('是否要停止结束?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '结束会议成功!'
-          });
 
-          endMeeting(this.nowMeetingId).then(response => {
-            if (response.success) {
-              this.$message.success(response.message)
-              this.meetingStatus = 2
-            }else{
-              this.$message.error(response.message)
-            }
-            this.saveMeetingStatus()
-            Cookies.remove('meetingId')
-          })
-        })
-    },
-    handleLastStep(dialogStatus){
-      this.steps[dialogStatus]--
-    },
-    handleNextStep(dialogStatus){
-      this.steps[dialogStatus]++
-    },
     getList() {
       this.listLoading = true
-      this.nowMeetingId = Cookies.get('meetingId')
-      if (!this.nowMeetingId) {
-        
-        this.$notify({
-          title: '提示',
-          message: '请先创建会议！',
-          duration: 7000,
-          type: 'error'
-        })
-        return
-            
-      }
-      fetchList(this.nowMeetingId).then(response => {
+      renterHouseMsg(this.userID).then(response => {
         const items = response.data
         this.responseData = items
         this.list = items.map(v => {
@@ -784,27 +547,11 @@ export default {
         this.listLoading = false
       })
     },
-    cancelEdit(row) {
-      row.title = row.originalTitle
-      row.edit = false
-      this.$message({
-        message: 'The title has been restored to the original value',
-        type: 'warning'
-      })
-    },
-    confirmEdit(row) {
-      row.edit = false
-      row.originalTitle = row.title
-      this.$message({
-        message: 'The title has been edited',
-        type: 'success'
-      })
-    },
     viewResult(index,row){
       this.recordDialogFormVisible = true
       this.dialogStatus = 'voteResult'
       this.nowRecord = row
-      getTraditionalResult(row.vote_id).then(response =>{
+      getHouseResult(row.vote_id).then(response =>{
         if (response.success) {
           this.voteResult = response.data
         }
@@ -812,43 +559,6 @@ export default {
     },
     refreshResult(){
       this.viewResult(0,this.nowRecord)
-    },
-    handlePublish(index,row){
-      this.changeVoteStatusForm.voteId = row.vote_id
-      this.changeVoteStatusForm.status = 1
-      changeVoteStatus(this.changeVoteStatusForm).then(response =>{
-        if (response.success) {
-          this.$message.success(response.message)
-          this.getList()
-        }else{
-          this.$message.error(response.message)
-        }
-      })
-    },
-    endNowVote(){
-      this.changeVoteStatusForm.voteId = this.nowRecord.vote_id
-      this.changeVoteStatusForm.status = 2
-      changeVoteStatus(this.changeVoteStatusForm).then(response =>{
-        if (response.success) {
-          this.recordDialogFormVisible = false
-          this.$message.success(response.message)
-          this.getList()
-        }else{
-          this.$message.error(response.message)
-        }
-      })
-    },
-    exportVoteResult(){
-      if (this.nowRecord.vote_status!=2) {
-        this.$message.warning('请结束选票后导出结果！')
-        return
-      }
-      
-      exportExcel(this.nowRecord.vote_id).then(response => {
-        if (response.success) {
-          location.href = response.data
-        }
-      })
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
@@ -858,6 +568,13 @@ export default {
           return v[j]
         }
       }))
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     }
   }
 }

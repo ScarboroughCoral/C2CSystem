@@ -25,8 +25,14 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import Cookies from "js-cookie";
 
 export default {
+  data(){
+    return {
+      userID:undefined
+    }
+  },
   components: {
     Breadcrumb,
     Hamburger
@@ -37,12 +43,15 @@ export default {
       'avatar'
     ])
   },
+  created(){
+    this.userID = Cookies.get('userID')
+  },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('ToggleSideBar')
     },
     logout() {
-      this.$store.dispatch('LogOut').then(() => {
+      this.$store.dispatch('LogOut',this.userID).then(() => {
         location.reload() // 为了重新实例化vue-router对象 避免bug
       })
     }

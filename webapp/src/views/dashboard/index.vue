@@ -30,13 +30,14 @@ export default {
 .dashboard {
   &-container {
     margin: 30px;
+    margin-left: 250px;
   }
   &-text {
     font-size: 30px;
     line-height: 46px;
   }
   &-image{
-    width: 1680px;
+    height: 830px;
   }
 }
 </style>
