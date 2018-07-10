@@ -12,7 +12,7 @@ import java.util.List;
 public interface HouseRepository extends JpaRepository<House,Integer> {
 
 
-    @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(ht.houseTypeDesc,h.houseDesc," +
+    @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(ht.houseType,h.houseDesc," +
             "h.houseAddr,h.price) "+
             "from HouseType ht,House h " +
             "where h.houseTypeId=ht.houseTypeId and h.houseStatusId=1")
@@ -26,4 +26,6 @@ public interface HouseRepository extends JpaRepository<House,Integer> {
             "from House h,HousesOfRenters hor,HouseStatus hs,HouseType ht  " +
             "where hor.userId=?1 and hor.houseId=h.houseId and ht.houseTypeId=h.houseTypeId and hs.houseStatusId=h.houseStatusId")
     List<RenterHouseMsgDTO> getRenterHouseMsg(Integer userID);
+
+
 }
