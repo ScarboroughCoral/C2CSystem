@@ -24,20 +24,20 @@ public interface AddressRepository extends JpaRepository<District,Integer> {
     List<District> getDistrict();
 
 
-    @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(ht.houseType,h.houseDesc," +
+    @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(h.houseId,ht.houseType,h.houseDesc," +
             "h.houseAddr,h.price) "+
             "from HouseType ht,House h,Province p,City c,District d " +
             "where h.houseTypeId=ht.houseTypeId and h.houseStatusId=1 and c.provinceId=p.provinceId and c.cityId=d.cityId and d.districtId=h.districtId " +
             "and p.provinceId=?1")
     List<HouseMsgDTO> searchHouseByProvince(Integer provinceId);
 
-    @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(ht.houseType,h.houseDesc," +
+    @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(h.houseId,ht.houseType,h.houseDesc," +
             "h.houseAddr,h.price) "+
             "from HouseType ht,House h,City c,District d " +
             "where h.houseTypeId=ht.houseTypeId and h.houseStatusId=1 and c.provinceId=?1 and c.cityId=d.cityId and d.districtId=h.districtId")
     List<HouseMsgDTO> searchHouseByCity(Integer cityId);
 
-    @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(ht.houseType,h.houseDesc," +
+    @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(h.houseId,ht.houseType,h.houseDesc," +
             "h.houseAddr,h.price) "+
             "from HouseType ht,House h,Province p,City c,District d " +
             "where h.houseTypeId=ht.houseTypeId and h.houseStatusId=1 and d.districtId=?1 and d.districtId=h.districtId")

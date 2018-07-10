@@ -21,6 +21,11 @@ public class HouseImg {
     private Integer houseId;
 
 
+    public HouseImg(String imgUrl, Integer houseId) {
+        this.imgUrl = imgUrl;
+        this.houseId = houseId;
+    }
+
     public Integer getImgID() {
         return imgID;
     }

@@ -16,7 +16,23 @@ public class HouseMsgDTO {
 
     }
 
-    public HouseMsgDTO(String houseTypeDes, String houseDes, String houseAddr,Double houseMoney) {
+    public HouseMsgDTO(Integer houseID, String houseTypeDes, String houseDes, String houseAddr, Double houseMoney) {
+        this.houseID = houseID;
+        this.houseTypeDes = houseTypeDes;
+        this.houseDes = houseDes;
+        this.houseAddr = houseAddr;
+        this.houseMoney = houseMoney;
+    }
+
+    public Integer getHouseID() {
+        return houseID;
+    }
+
+    public void setHouseID(Integer houseID) {
+        this.houseID = houseID;
+    }
+
+    public HouseMsgDTO(String houseTypeDes, String houseDes, String houseAddr, Double houseMoney) {
         this.houseTypeDes = houseTypeDes;
         this.houseDes = houseDes;
         this.houseAddr = houseAddr;
