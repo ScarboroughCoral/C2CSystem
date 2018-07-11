@@ -61,7 +61,14 @@ export const constantRouterMap = [
         name: 'houses',
         component: () => import('@/views/houses/index'),
         meta: { title: '我想租房', icon: 'terminal' }
-      }
+      },
+      { 
+        path: '/house',
+        name: 'house',
+        component:() => import('@/views/houses/house'),
+        hidden:true,
+        meta: {title:'房源详情'}
+      },
     ]
   },
   {
