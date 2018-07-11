@@ -1,12 +1,8 @@
 <template>
   <div class="app-container">
-    <!-- <el-tag>终端管理</el-tag>
+    <el-tag>筛选条件</el-tag>
     <div class="filter-container">
-      <el-button type="primary"  icon="el-icon-refresh" @click="freshList">刷新列表</el-button>
-      <el-button type="primary" @click="handleCreate" icon="el-icon-circle-plus">添加终端</el-button>
-      <el-button type="danger"  icon="el-icon-delete">删除终端</el-button>
-      <el-button type="primary" icon="el-icon-sort" @click="handleExchangeMeeting">参会反转</el-button>
-    </div> -->
+    </div>
     <el-table :data="list" 
     v-loading.body="listLoading" 
     element-loading-text="Loading" 
@@ -54,7 +50,7 @@
 
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.vote_status!='1'" type="primary" size="mini" @click="" >详情</el-button>
+          <el-button v-if="scope.row.vote_status!='1'" type="primary" size="mini" @click="handleDispatchSpecific(scope.$index,scope.row)" >详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -188,6 +184,9 @@ export default {
           this.$message.error(response.message)
         }
       })
+    },
+    handleDispatchSpecific(index,row){
+      this.$router.push({ path: '/house?houseId=1' })
     },
     handleSelectionChange(val,test){
         this.multipleSelection = val;
