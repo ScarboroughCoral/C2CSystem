@@ -21,6 +21,14 @@ public class UserOrder {
     @Column(name = "house_id")
     private Integer houseID;
 
+    public UserOrder(Integer orderStatusId, Integer userId, Date orderTime, Boolean deleted, Integer houseID) {
+        this.orderStatusId = orderStatusId;
+        this.userId = userId;
+        this.orderTime = orderTime;
+        this.deleted = deleted;
+        this.houseID = houseID;
+    }
+
     public Integer getHouseID() {
         return houseID;
     }
