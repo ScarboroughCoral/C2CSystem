@@ -3,6 +3,7 @@ package top.scarboroughcoral.c2c.service.serviceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.scarboroughcoral.c2c.model.dto.RentHouseMsgDTO;
 import top.scarboroughcoral.c2c.model.dto.HouseDescDTO;
 import top.scarboroughcoral.c2c.model.dto.HouseMsgDTO;
 import top.scarboroughcoral.c2c.model.dto.RentDTO;
@@ -129,6 +130,19 @@ public class HouseServicelmpl implements HouseService {
         result.setSuccess(true);
 
 
+    }
+
+    @Override
+    public void getRentHouseInfo(Integer houseId, BaseResult<RentHouseMsgDTO> result) {
+        RentHouseMsgDTO houseMsgDTO = houseRepository.getHouseInfo(houseId);
+        if(houseMsgDTO != null){
+            result.setMessage("获取成功");
+            result.setSuccess(true);
+            result.setData(houseMsgDTO);
+        }else{
+            result.setMessage("fail");
+            result.setSuccess(false);
+        }
     }
 
 

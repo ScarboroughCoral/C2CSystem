@@ -2,16 +2,12 @@ package top.scarboroughcoral.c2c.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import top.scarboroughcoral.c2c.model.dto.HouseDescDTO;
-import top.scarboroughcoral.c2c.model.dto.HouseMsgDTO;
-import top.scarboroughcoral.c2c.model.dto.RentDTO;
-import top.scarboroughcoral.c2c.model.dto.RenterHouseMsgDTO;
+import top.scarboroughcoral.c2c.model.dto.*;
 import top.scarboroughcoral.c2c.model.entity.HouseType;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
 import top.scarboroughcoral.c2c.service.HouseService;
 
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @RestController
@@ -66,6 +62,13 @@ public class HouseController {
                                               @RequestBody HouseDescDTO houseDescDTO){
         BaseResult<Object> result = new BaseResult<>();
         houseService.changeHouseInfo(houseId,houseDescDTO,result);
+        return result;
+    }
+
+    @GetMapping("/getRentHouseInfo")
+    public BaseResult<RentHouseMsgDTO> getRentHouseInfo(@RequestParam("houseId") Integer houseId){
+        BaseResult<RentHouseMsgDTO> result = new BaseResult<>();
+        houseService.getRentHouseInfo(houseId,result);
         return result;
     }
 
