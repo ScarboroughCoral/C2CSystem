@@ -1,6 +1,7 @@
 package top.scarboroughcoral.c2c.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import top.scarboroughcoral.c2c.model.dto.HouseMsgDTO;
 import top.scarboroughcoral.c2c.model.dto.RenterHouseMsgDTO;
@@ -26,7 +27,6 @@ public interface HouseRepository extends JpaRepository<House,Integer> {
     List<HouseMsgDTO> getHouseMsgByType(Integer houseTypeId);
 
 
-
     @Query(value = "select new top.scarboroughcoral.c2c.model.dto.RenterHouseMsgDTO(ht.houseTypeDesc,hs.houseStatus," +
             "h.holdNumber,h.price,h.houseArea,h.houseDesc,h.houseAddr) " +
             "from House h,HousesOfRenters hor,HouseStatus hs,HouseType ht  " +
@@ -34,4 +34,7 @@ public interface HouseRepository extends JpaRepository<House,Integer> {
     List<RenterHouseMsgDTO> getRenterHouseMsg(Integer userID);
 
 
+    @Query(value = "update house set house_status_id=?2 where house_id=?1",nativeQuery = true)
+    @Modifying
+    Integer changeHouseState(Integer houseId,Integer houseStateId);
 }

@@ -15,5 +15,6 @@ public interface HouseService {
     void rentHouse(RentDTO rentDTO, BaseResult<Object> result);
     void getHouseType(BaseResult<List<HouseType>> result);
     void getRenterHouseMsg(Integer userID,BaseResult<List<RenterHouseMsgDTO>> result);
+    void changeHouseState(Integer houseId,Integer houseStateId,BaseResult<Integer> result);
 
 }
