@@ -10,6 +10,23 @@ public class RenterHouseMsgDTO {
     private Double houseArea;
     private String houseDecs;
     private String houseAddr;
+    private String provinceDesc;
+    private String cityDesc;
+    private String districtDesc;
+
+    public RenterHouseMsgDTO(Integer houseId, String houseTypeDes, String houseStateDes, Integer holdNum, Double price, Double houseArea, String houseDecs, String houseAddr, String provinceDesc, String cityDesc, String districtDesc) {
+        this.houseId = houseId;
+        this.houseTypeDes = houseTypeDes;
+        this.houseStateDes = houseStateDes;
+        this.holdNum = holdNum;
+        this.price = price;
+        this.houseArea = houseArea;
+        this.houseDecs = houseDecs;
+        this.houseAddr = houseAddr;
+        this.provinceDesc = provinceDesc;
+        this.cityDesc = cityDesc;
+        this.districtDesc = districtDesc;
+    }
 
     public RenterHouseMsgDTO(Integer houseId, String houseTypeDes, String houseStateDes, Integer holdNum, Double price, Double houseArea, String houseDecs, String houseAddr) {
         this.houseId = houseId;
@@ -20,6 +37,30 @@ public class RenterHouseMsgDTO {
         this.houseArea = houseArea;
         this.houseDecs = houseDecs;
         this.houseAddr = houseAddr;
+    }
+
+    public String getProvinceDesc() {
+        return provinceDesc;
+    }
+
+    public void setProvinceDesc(String provinceDesc) {
+        this.provinceDesc = provinceDesc;
+    }
+
+    public String getCityDesc() {
+        return cityDesc;
+    }
+
+    public void setCityDesc(String cityDesc) {
+        this.cityDesc = cityDesc;
+    }
+
+    public String getDistrictDesc() {
+        return districtDesc;
+    }
+
+    public void setDistrictDesc(String districtDesc) {
+        this.districtDesc = districtDesc;
     }
 
     public Integer getHouseId() {

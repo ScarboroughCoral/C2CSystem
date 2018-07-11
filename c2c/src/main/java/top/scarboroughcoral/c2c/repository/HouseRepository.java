@@ -31,9 +31,10 @@ public interface HouseRepository extends JpaRepository<House,Integer> {
 
 
     @Query(value = "select new top.scarboroughcoral.c2c.model.dto.RenterHouseMsgDTO(h.houseId,ht.houseTypeDesc,hs.houseStatus," +
-            "h.holdNumber,h.price,h.houseArea,h.houseDesc,h.houseAddr) " +
-            "from House h,HousesOfRenters hor,HouseStatus hs,HouseType ht  " +
-            "where hor.userId=?1 and hor.houseId=h.houseId and ht.houseTypeId=h.houseTypeId and hs.houseStatusId=h.houseStatusId")
+            "h.holdNumber,h.price,h.houseArea,h.houseDesc,h.houseAddr,p.provinceDesc,c.cityDesc,d.districtDesc) " +
+            "from House h,HousesOfRenters hor,HouseStatus hs,HouseType ht,Province p,City c,District d " +
+            "where hor.userId=?1 and hor.houseId=h.houseId and ht.houseTypeId=h.houseTypeId and hs.houseStatusId=h.houseStatusId " +
+            "and d.districtId=h.districtId and d.cityId=c.cityId and c.provinceId=p.provinceId")
     List<RenterHouseMsgDTO> getRenterHouseMsg(Integer userID);
 
 
