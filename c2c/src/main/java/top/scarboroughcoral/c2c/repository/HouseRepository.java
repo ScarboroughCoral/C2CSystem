@@ -18,8 +18,14 @@ public interface HouseRepository extends JpaRepository<House,Integer> {
             "where h.houseTypeId=ht.houseTypeId and h.houseStatusId=1")
     List<HouseMsgDTO> getHouseMsg();
 
-    @Query(value = "select * from housetype",nativeQuery = true)
-    List<HouseType> getHouseType();
+
+    @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(h.houseId,ht.houseType,h.houseDesc," +
+            "h.houseAddr,h.price) "+
+            "from HouseType ht,House h " +
+            "where h.houseTypeId=ht.houseTypeId and h.houseStatusId=1 and h.houseTypeId=?1")
+    List<HouseMsgDTO> getHouseMsgByType(Integer houseTypeId);
+
+
 
     @Query(value = "select new top.scarboroughcoral.c2c.model.dto.RenterHouseMsgDTO(ht.houseTypeDesc,hs.houseStatus," +
             "h.holdNumber,h.price,h.houseArea,h.houseDesc,h.houseAddr) " +

@@ -10,6 +10,7 @@ import top.scarboroughcoral.c2c.model.entity.Province;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
 import top.scarboroughcoral.c2c.repository.AddressRepository;
 import top.scarboroughcoral.c2c.repository.CityRepository;
+import top.scarboroughcoral.c2c.repository.HouseRepository;
 import top.scarboroughcoral.c2c.repository.ProvinceRepository;
 import top.scarboroughcoral.c2c.service.AddressService;
 
@@ -24,6 +25,8 @@ public class AddressServiceImpl implements AddressService {
     private CityRepository cityRepository;
     @Autowired
     private ProvinceRepository provinceRepository;
+    @Autowired
+    private HouseRepository houseRepository;
 
     @Override
     public void getAddress(Integer districtId, BaseResult<AddressDTO> result) {
@@ -130,6 +133,49 @@ public class AddressServiceImpl implements AddressService {
     public void searchByDistrict(Integer districtId, BaseResult<List<HouseMsgDTO>> result) {
         List<HouseMsgDTO> houseMsgDTOList = addressRepository.searchHouseByDistrict(districtId);
         setHouseMsgResult(result,houseMsgDTOList);
+    }
+
+    @Override
+    public void search(Integer provinceId, Integer cityId, Integer districtId, Integer houseTypeId,BaseResult<List<HouseMsgDTO>> result) {
+        List<HouseMsgDTO> houseMsgDTOList = null;
+        if(houseTypeId == null && provinceId != null){
+            if(cityId == null){
+                houseMsgDTOList = addressRepository.searchHouseByProvince(provinceId);
+            }
+            else if (districtId == null){
+                houseMsgDTOList = addressRepository.searchHouseByCity(cityId);
+            }
+            else {
+                houseMsgDTOList = addressRepository.searchHouseByDistrict(districtId);
+            }
+        }else if (houseTypeId !=  null){
+            if(provinceId == null){
+                houseMsgDTOList = houseRepository.getHouseMsgByType(houseTypeId);
+            }
+            else  if(cityId == null){
+                houseMsgDTOList = addressRepository.searchHouseByProvinceAndType(provinceId,houseTypeId);
+            }
+            else if (districtId == null){
+                houseMsgDTOList = addressRepository.searchHouseByCityAndType(cityId,houseTypeId);
+            }
+            else {
+                houseMsgDTOList = addressRepository.searchHouseByDistrictAndType(districtId,houseTypeId);
+            }
+
+        }else{
+            houseMsgDTOList = houseRepository.getHouseMsg();
+        }
+
+        if(houseMsgDTOList != null){
+            result.setMessage("搜索成功");
+            result.setSuccess(true);
+            result.setData(houseMsgDTOList);
+        }
+        else{
+            result.setMessage("信息不存在");
+            result.setSuccess(false);
+        }
+
     }
 
     private void setHouseMsgResult(BaseResult<List<HouseMsgDTO>> result,List<HouseMsgDTO> houseMsgDTOList){

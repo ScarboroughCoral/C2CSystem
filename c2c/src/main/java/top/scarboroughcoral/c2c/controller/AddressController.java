@@ -86,9 +86,10 @@ public class AddressController {
     public BaseResult<List<HouseMsgDTO>> searchHouse(@RequestParam(value = "districtId",required = false) Integer districtId,
                                                      @RequestParam(value = "cityId",required = false) Integer cityId,
                                                      @RequestParam(value = "provinceId",required = false) Integer provinceId,
-                                                     @RequestParam(value = "houseType",required =  false) Integer houseTypeId){
-
-        return null;
+                                                     @RequestParam(value = "houseTypeId",required =  false) Integer houseTypeId) {
+        BaseResult<List<HouseMsgDTO>> result = new BaseResult<>();
+        addressService.search(provinceId, cityId, districtId, houseTypeId, result);
+        return result;
     }
 
     @GetMapping("/searchByCity")

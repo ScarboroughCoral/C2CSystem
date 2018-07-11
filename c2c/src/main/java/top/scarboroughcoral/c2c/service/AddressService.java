@@ -26,4 +26,6 @@ public interface AddressService {
     void searchByCity(Integer cityId,BaseResult<List<HouseMsgDTO>>result);
     void searchByDistrict(Integer districtId,BaseResult<List<HouseMsgDTO>>result);
 
+    void search(Integer provinceId,Integer cityId,Integer districtId,Integer houseType,BaseResult<List<HouseMsgDTO>> result);
+
 }
