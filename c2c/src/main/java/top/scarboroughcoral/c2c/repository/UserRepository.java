@@ -21,6 +21,9 @@ public interface UserRepository extends JpaRepository<User,Integer> {
             nativeQuery = true)
     User findByAdmin(String loginName,String password);
 
+    @Query(value = "select * from user where user_id=?1",nativeQuery = true)
+    User getUser(Integer userId);
+
     @Query(value = "select * from USER",nativeQuery = true)
     List<User> getUserList();
 
