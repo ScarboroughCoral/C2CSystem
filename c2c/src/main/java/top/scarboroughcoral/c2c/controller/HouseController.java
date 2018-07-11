@@ -2,6 +2,7 @@ package top.scarboroughcoral.c2c.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import top.scarboroughcoral.c2c.model.dto.HouseDescDTO;
 import top.scarboroughcoral.c2c.model.dto.HouseMsgDTO;
 import top.scarboroughcoral.c2c.model.dto.RentDTO;
 import top.scarboroughcoral.c2c.model.dto.RenterHouseMsgDTO;
@@ -56,6 +57,15 @@ public class HouseController {
 
         BaseResult<Integer> result = new BaseResult<>();
         houseService.changeHouseState(houseId,houseStateId,result);
+        return result;
+    }
+
+
+    @PostMapping("/changeHouseInfo")
+    public BaseResult<Object> changeHouseInfo(@RequestParam("houseId") Integer houseId,
+                                              @RequestBody HouseDescDTO houseDescDTO){
+        BaseResult<Object> result = new BaseResult<>();
+        houseService.changeHouseInfo(houseId,houseDescDTO,result);
         return result;
     }
 

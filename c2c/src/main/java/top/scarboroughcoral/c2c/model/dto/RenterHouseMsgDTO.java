@@ -2,7 +2,7 @@ package top.scarboroughcoral.c2c.model.dto;
 
 public class RenterHouseMsgDTO {
 
-
+    private Integer houseId;
     private String houseTypeDes;
     private String houseStateDes;
     private Integer holdNum;
@@ -10,6 +10,25 @@ public class RenterHouseMsgDTO {
     private Double houseArea;
     private String houseDecs;
     private String houseAddr;
+
+    public RenterHouseMsgDTO(Integer houseId, String houseTypeDes, String houseStateDes, Integer holdNum, Double price, Double houseArea, String houseDecs, String houseAddr) {
+        this.houseId = houseId;
+        this.houseTypeDes = houseTypeDes;
+        this.houseStateDes = houseStateDes;
+        this.holdNum = holdNum;
+        this.price = price;
+        this.houseArea = houseArea;
+        this.houseDecs = houseDecs;
+        this.houseAddr = houseAddr;
+    }
+
+    public Integer getHouseId() {
+        return houseId;
+    }
+
+    public void setHouseId(Integer houseId) {
+        this.houseId = houseId;
+    }
 
     public RenterHouseMsgDTO(String houseTypeDes, String houseStateDes, Integer holdNum, Double price, Double houseArea, String houseDecs, String houseAddr) {
         this.houseTypeDes = houseTypeDes;

@@ -9,7 +9,7 @@ import top.scarboroughcoral.c2c.service.ImgService;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "img")
+@RequestMapping(value = "/img")
 public class ImgController {
 
     @Autowired

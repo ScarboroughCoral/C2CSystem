@@ -31,6 +31,17 @@ public class House {
     @Column(name = "house_rent_end_date")
     private Date houseEndTime;
 
+    public House(Integer houseId, Integer holdNumber, Double price, Double houseArea, String houseDesc, String houseAddr, Date houseStartTime, Date houseEndTime) {
+        this.houseId = houseId;
+        this.holdNumber = holdNumber;
+        this.price = price;
+        this.houseArea = houseArea;
+        this.houseDesc = houseDesc;
+        this.houseAddr = houseAddr;
+        this.houseStartTime = houseStartTime;
+        this.houseEndTime = houseEndTime;
+    }
+
     public Date getHouseStartTime() {
         return houseStartTime;
     }
