@@ -32,3 +32,12 @@ export function renterHouseMsg(userID){
         }
     })
 }
+
+export function uploadImg(params) {
+    return request({
+        url: '/img/setHouseImg',
+        method:'POST',
+        contentType:'multipart/form-data',
+        data: params,
+    })
+}

@@ -126,11 +126,11 @@ export default {
   },
   created() {
 
-        this.$alert('该功能暂未开放！!',{
-            callback:function () {
-              location.href = '/#/dashboard'
-            }
-        });
+        // this.$alert('该功能暂未开放！!',{
+        //     callback:function () {
+        //       location.href = '/#/dashboard'
+        //     }
+        // });
     // this.fetchData()
     // fetchList(this.nowMeetingId).then(response=>{
     //   if (response.success) {
