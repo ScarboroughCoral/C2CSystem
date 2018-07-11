@@ -91,6 +91,30 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    public void getCityByProvince(Integer provinceId, BaseResult<List<City>> result) {
+        List<City> cityList = cityRepository.getCityByProvince(provinceId);
+        if(cityList != null){
+            result.setSuccess(true);
+            result.setData(cityList);
+        }else{
+            result.setSuccess(false);
+            result.setMessage("没有登记该城市");
+        }
+    }
+
+    @Override
+    public void getDistrictByCity(Integer cityId, BaseResult<List<District>> result) {
+        List<District> districtList = addressRepository.getDistrictByCity(cityId);
+        if(districtList != null){
+            result.setSuccess(true);
+            result.setData(districtList);
+        }else{
+            result.setSuccess(false);
+            result.setMessage("没有登记该区域");
+        }
+    }
+
+    @Override
     public void searchByProvince(Integer provinceId, BaseResult<List<HouseMsgDTO>> result) {
         List<HouseMsgDTO> houseMsgDTOList = addressRepository.searchHouseByProvince(provinceId);
         setHouseMsgResult(result,houseMsgDTOList);

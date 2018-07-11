@@ -1,11 +1,13 @@
 package top.scarboroughcoral.c2c.controller;
 
 
+import com.sun.org.apache.bcel.internal.generic.FADD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.w3c.dom.ls.LSException;
 import top.scarboroughcoral.c2c.model.dto.AddressDTO;
 import top.scarboroughcoral.c2c.model.dto.HouseMsgDTO;
 import top.scarboroughcoral.c2c.model.entity.City;
@@ -58,21 +60,45 @@ public class AddressController {
         return result;
     }
 
-    @GetMapping("/getByProvince")
+    @GetMapping("/getCity")
+    public BaseResult<List<City>> getCity(@RequestParam("provinceId") Integer provinceId){
+        BaseResult<List<City>> result = new BaseResult<>();
+        addressService.getCityByProvince(provinceId,result);
+        return result;
+    }
+
+    @GetMapping("/getDistrict")
+    public BaseResult<List<District>> getDistrict(@RequestParam("cityId") Integer cityId){
+        BaseResult<List<District>> result = new BaseResult<>();
+        addressService.getDistrictByCity(cityId,result);
+        return result;
+    }
+
+    @GetMapping("/searchByProvince")
     public BaseResult<List<HouseMsgDTO>> searchByProvince(@RequestParam("provinceId") Integer provinceId){
         BaseResult<List<HouseMsgDTO>> result = new BaseResult<>();
         addressService.searchByProvince(provinceId,result);
         return result;
     }
 
-    @GetMapping("/getByCity")
+
+    @GetMapping("/search")
+    public BaseResult<List<HouseMsgDTO>> searchHouse(@RequestParam(value = "districtId",required = false) Integer districtId,
+                                                     @RequestParam(value = "cityId",required = false) Integer cityId,
+                                                     @RequestParam(value = "provinceId",required = false) Integer provinceId,
+                                                     @RequestParam(value = "houseType",required =  false) Integer houseTypeId){
+
+        return null;
+    }
+
+    @GetMapping("/searchByCity")
     public BaseResult<List<HouseMsgDTO>> searchByCity(@RequestParam("cityId") Integer cityId){
         BaseResult<List<HouseMsgDTO>> result = new BaseResult<>();
         addressService.searchByCity(cityId,result);
         return result;
     }
 
-    @GetMapping("/getByDistrict")
+    @GetMapping("/searchByDistrict")
     public BaseResult<List<HouseMsgDTO>> searchByDistrict(@RequestParam("districtId") Integer districtId){
         BaseResult<List<HouseMsgDTO>> result = new BaseResult<>();
         addressService.searchByDistrict(districtId,result);

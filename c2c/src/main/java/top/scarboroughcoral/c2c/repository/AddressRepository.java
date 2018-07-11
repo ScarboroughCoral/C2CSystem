@@ -23,6 +23,9 @@ public interface AddressRepository extends JpaRepository<District,Integer> {
     @Query(value = "select * from district",nativeQuery = true)
     List<District> getDistrict();
 
+    @Query(value = "select * from district where city_id=?1",nativeQuery = true)
+    List<District> getDistrictByCity(Integer cityId);
+
 
     @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(h.houseId,ht.houseType,h.houseDesc," +
             "h.houseAddr,h.price) "+
@@ -42,4 +45,6 @@ public interface AddressRepository extends JpaRepository<District,Integer> {
             "from HouseType ht,House h,Province p,City c,District d " +
             "where h.houseTypeId=ht.houseTypeId and h.houseStatusId=1 and d.districtId=?1 and d.districtId=h.districtId")
     List<HouseMsgDTO> searchHouseByDistrict(Integer provinceId);
+
+
 }

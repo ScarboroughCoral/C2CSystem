@@ -1,15 +1,22 @@
 package top.scarboroughcoral.c2c.model.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
+import java.util.List;
 
 public class ImgDto {
 
     private Integer houseId;
-    private File img;
+    private MultipartFile imgList;
 
-    public ImgDto(Integer houseId, File img) {
+    public ImgDto(){
+
+    }
+
+    public ImgDto(Integer houseId, MultipartFile imgList) {
         this.houseId = houseId;
-        this.img = img;
+        this.imgList = imgList;
     }
 
     public Integer getHouseId() {
@@ -20,11 +27,11 @@ public class ImgDto {
         this.houseId = houseId;
     }
 
-    public File getImg() {
-        return img;
+    public MultipartFile getImgList() {
+        return imgList;
     }
 
-    public void setImg(File img) {
-        this.img = img;
+    public void setImgList(MultipartFile imgList) {
+        this.imgList = imgList;
     }
 }

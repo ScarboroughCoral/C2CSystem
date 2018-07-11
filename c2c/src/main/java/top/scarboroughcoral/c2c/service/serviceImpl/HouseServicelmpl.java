@@ -50,6 +50,9 @@ public class HouseServicelmpl implements HouseService {
         house.setHouseStatusId(rentDTO.getHouseStateID());
         house.setHouseTypeId(rentDTO.getHouseTypeID());
         house.setHoldNumber(rentDTO.getHoldNum());
+        house.setDistrictId(rentDTO.getDistrictId());
+        house.setHouseStartTime(rentDTO.getRentStartTime());
+        house.setHouseEndTime(rentDTO.getRentEndTime());
 
         House h = houseRepository.save(house);
         HousesOfRenters housesOfRenters = new HousesOfRenters(rentDTO.getUserId(),h.getHouseId());

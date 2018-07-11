@@ -19,6 +19,9 @@ public interface AddressService {
     void getProvince(BaseResult<List<Province>> result);
     void getDistrict(BaseResult<List<District>> result);
 
+    void getCityByProvince(Integer provinceId,BaseResult<List<City>> result);
+    void getDistrictByCity(Integer cityId,BaseResult<List<District>> result);
+
     void searchByProvince(Integer provinceId,BaseResult<List<HouseMsgDTO>> result);
     void searchByCity(Integer cityId,BaseResult<List<HouseMsgDTO>>result);
     void searchByDistrict(Integer districtId,BaseResult<List<HouseMsgDTO>>result);

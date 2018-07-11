@@ -10,4 +10,7 @@ public interface CityRepository extends JpaRepository<City,Integer> {
 
     @Query(value = "select * from city",nativeQuery = true)
     List<City> getCity();
+
+    @Query(value = "select * from city where province_id=?1",nativeQuery = true)
+    List<City> getCityByProvince(Integer provinceId);
 }

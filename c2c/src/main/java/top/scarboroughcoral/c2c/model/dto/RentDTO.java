@@ -1,5 +1,7 @@
 package top.scarboroughcoral.c2c.model.dto;
 
+import java.util.Date;
+
 public class RentDTO {
 
     Integer userId;
@@ -10,12 +12,11 @@ public class RentDTO {
     Double houseArea;
     String houseDesc;
     String houseAddr;
+    Integer districtId;
+    Date rentStartTime;
+    Date rentEndTime;
 
-    public RentDTO() {
-
-    }
-
-    public RentDTO(Integer userId, Integer houseTypeID, Integer houseStateID, Integer holdNum, Double price, Double houseArea, String houseDesc, String houseAddr) {
+    public RentDTO(Integer userId, Integer houseTypeID, Integer houseStateID, Integer holdNum, Double price, Double houseArea, String houseDesc, String houseAddr, Integer districtId, Date rentStartTime, Date rentEndTime) {
         this.userId = userId;
         this.houseTypeID = houseTypeID;
         this.houseStateID = houseStateID;
@@ -24,7 +25,39 @@ public class RentDTO {
         this.houseArea = houseArea;
         this.houseDesc = houseDesc;
         this.houseAddr = houseAddr;
+        this.districtId = districtId;
+        this.rentStartTime = rentStartTime;
+        this.rentEndTime = rentEndTime;
     }
+
+    public Integer getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(Integer districtId) {
+        this.districtId = districtId;
+    }
+
+    public Date getRentStartTime() {
+        return rentStartTime;
+    }
+
+    public void setRentStartTime(Date rentStartTime) {
+        this.rentStartTime = rentStartTime;
+    }
+
+    public Date getRentEndTime() {
+        return rentEndTime;
+    }
+
+    public void setRentEndTime(Date rentEndTime) {
+        this.rentEndTime = rentEndTime;
+    }
+
+    public RentDTO() {
+
+    }
+
 
     public Integer getUserId() {
         return userId;

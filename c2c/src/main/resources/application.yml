@@ -1,8 +1,8 @@
 #确定当前版本为发布版本，即active：prod，配置数据库、用户名密码、
 spring:
   profiles:
-    active: prod
-#    active: dev
+    #active: prod
+    active: dev
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://101.132.161.199:3306/c2c_system?autoReconnect=true&useSSL=false

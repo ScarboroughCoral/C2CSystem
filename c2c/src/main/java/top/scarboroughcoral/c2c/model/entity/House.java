@@ -1,6 +1,7 @@
 package top.scarboroughcoral.c2c.model.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "house")
@@ -25,6 +26,26 @@ public class House {
     private String houseAddr;
     @Column(name = "house_district_id")
     private Integer districtId;
+    @Column(name = "house_rent_date")
+    private Date houseStartTime;
+    @Column(name = "house_rent_end_date")
+    private Date houseEndTime;
+
+    public Date getHouseStartTime() {
+        return houseStartTime;
+    }
+
+    public void setHouseStartTime(Date houseStartTime) {
+        this.houseStartTime = houseStartTime;
+    }
+
+    public Date getHouseEndTime() {
+        return houseEndTime;
+    }
+
+    public void setHouseEndTime(Date houseEndTime) {
+        this.houseEndTime = houseEndTime;
+    }
 
     public Integer getDistrictId() {
         return districtId;

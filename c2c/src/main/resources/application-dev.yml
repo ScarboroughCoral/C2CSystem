@@ -3,5 +3,5 @@ server:
   servlet:
     context-path: /c2c
 
-ResourcePath: /home/scarborough_coral/MNTS/files/
-getResourcePath: http:localhost:9797/c2c/file/
+ResourcePath: D:\c2c\C2CSystem\c2c\img\
+getResourcePath: http:localhost:9999/c2c/img/
