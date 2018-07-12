@@ -22,6 +22,8 @@ public class UserOderServiceImpl implements UserOrderService {
     @Autowired
     private HouseRepository houseRepository;
 
+    
+
     @Override
     @Transactional
     public void orderHouse(Integer houseId, Integer userId,Integer orderStateId,BaseResult<Object> result) {
