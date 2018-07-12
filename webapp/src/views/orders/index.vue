@@ -9,17 +9,17 @@
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column align="center" label="房源类型">
         <template slot-scope="scope">
-          <span>{{scope.row.username}}</span>
+          <span>{{scope.row.houseType}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="房源简介">
         <template slot-scope="scope">
-          <span>{{scope.row.username}}</span>
+          <span>{{scope.row.houseDesc}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="房源所在地">
         <template slot-scope="scope">
-          <span>{{scope.row.username}}</span>
+          <span>{{scope.row.provinceDesc+scope.row.cityDesc+scope.row.districtDesc}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="手机号">
@@ -27,14 +27,9 @@
           <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="租金">
+      <el-table-column align="center" label="订单时间">
         <template slot-scope="scope">
-          <span>{{scope.row.username}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="发布时间">
-        <template slot-scope="scope">
-          <span>{{scope.row.username}}</span>
+          <span>{{scope.row.orderTime|dateTimeFilter}}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column class-name="status-col" label="终端状态" align="center">
@@ -45,43 +40,26 @@
 
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.vote_status!='1'" type="success" size="mini" @click="" >envaluate</el-button>
+          <el-button v-if="scope.row.vote_status!='1'" type="success" size="mini" @click="" >评价</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" >
-      <el-form   label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item label="工号">
-          <el-input v-model="judgeForm.loginName"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名">
-          <el-input v-model="judgeForm.username"></el-input>
-        </el-form-item>
-        <el-form-item label="密码">
-          <el-input v-model="judgeForm.password"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">确认</el-button>
-        <el-button v-else type="primary" @click="updateData">更新</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import { getList,changeUserMeeting,changeUserVote } from '@/api/judges'
 import { fetchList } from '@/api/vote'
+import { listOrder } from "@/api/order";
 import Cookies from "js-cookie";
+import { parseTime } from "@/utils/index";
 
 export default {
   // name: 'judges',
   data() {
     return {
       options: [],
-      nowVote: undefined,
-      nowMeetingId:0,
+      userId:undefined,
       list: null,
       listLoading: false,
       dialogFormVisible: false,
@@ -97,7 +75,6 @@ export default {
         userPriority:1,
         role:2,
       },
-      //评委查询条件----孙云栋
       listQuery:{
         role:2,
         meetingId:'',
@@ -115,46 +92,18 @@ export default {
       }
       return statusMap[status]
     },
-    onMeetingStatusFilter(status){
-      const statusMap = {
-        true: '是',
-        false: '否'
-
+      dateTimeFilter(val){
+          return parseTime(val,'{y}年{m}月{d}日')
       }
-      return statusMap[status]
-    }
   },
   created() {
-
-        // this.$alert('该功能暂未开放！!',{
-        //     callback:function () {
-        //       location.href = '/#/dashboard'
-        //     }
-        // });
-    // this.fetchData()
-    // fetchList(this.nowMeetingId).then(response=>{
-    //   if (response.success) {
-    //     for (let index = 0; index < response.data.length; index++) {
-    //       const element = response.data[index];
-    //       this.options.push({
-    //         value:element.vote_id,
-    //         label:element.title
-    //       })
-    //     }
-    //   } else {
-    //     this.$notify({
-    //       title: '提示',
-    //       message: '当前无投票！请先创建投票！再切换评委能否投票！',
-    //       duration: 0,
-    //       type: 'warning'
-    //     });
-    //   }
-    // })
+    this.userId = Cookies.get('userID')
+    this.fetchData()
   },
   methods: {
     fetchData() {
       this.listLoading = true
-      getList(this.listQuery).then(response => {
+      listOrder(this.userId).then(response => {
         this.list = response.data
         this.listLoading = false
       })
@@ -177,8 +126,6 @@ export default {
         this.loading = false
       })
 
-      //--------------------------------
-      //alert('OK11')
     },
     updateData() {
       alert('Update')
@@ -186,67 +133,7 @@ export default {
     refreshList(){
       this.fetchData()
     },
-    handleExchangeMeeting(){
-      if (!this.nowMeetingId) {
-        this.$message.warning('请先创建会议')
-        return
-      }
-      let userIdList = []
-      let fullUserIdList = []
-      for (let index = 0; index < this.multipleSelection.length; index++) {
-        const element = this.multipleSelection[index];
-        if (!element.onMeeting) {
-            userIdList.push(element.userId)
-        }
-        fullUserIdList.push(element.userId)
-      }
-      for (let index = 0; index < this.list.length; index++) {
-        const element = this.list[index];
-        if (fullUserIdList.indexOf(element.userId)<0&&element.onMeeting) {
-          userIdList.push(element.userId)
-        }
-      }
-
-      changeUserMeeting(this.nowMeetingId,userIdList).then(response => {
-        if(response.success){
-          this.$message.success(response.message)
-          this.fetchData()
-        }else{
-          this.$message.error(response.message)
-        }
-      })
-    },
-    handleExchangeVote(){
-      if (!this.nowVote) {
-        this.$message.warning('请先选择当前投票！')
-        return
-      }
-      let userIdList = []
-      let fullUserIdList = []
-      for (let index = 0; index < this.multipleSelection.length; index++) {
-        const element = this.multipleSelection[index];
-        if (!element.onVote) {
-            userIdList.push(element.userId)
-        }
-        fullUserIdList.push(element.userId)
-      }
-      for (let index = 0; index < this.list.length; index++) {
-        const element = this.list[index];
-        if (fullUserIdList.indexOf(element.userId)<0&&element.onVote) {
-          userIdList.push(element.userId)
-        }
-      }
-
-      changeUserVote(this.nowVote,userIdList).then(response => {
-        if(response.success){
-          this.$message.success(response.message)
-          this.fetchDataByVote()
-        }else{
-          this.$message.error(response.message)
-        }
-      })
-
-    },
+    
     handleSelectionChange(val){
         this.multipleSelection = val;
     },

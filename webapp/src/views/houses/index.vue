@@ -11,11 +11,11 @@
             <el-option v-for="item in cities" :key="item.id" :label="item.label" :value="item.value">
             </el-option>
         </el-select>
-        <el-select v-model="listQuery.districtId" placeholder="区级地区">
+        <el-select v-model="listQuery.districtId" @change="filterHouseFunc" placeholder="区级地区">
             <el-option v-for="item in districts" :key="item.id" :label="item.label" :value="item.value">
             </el-option>
         </el-select>
-        <el-select v-model="listQuery.houseTypeID" placeholder="房间类型" style="margin-left:40px;">
+        <el-select v-model="listQuery.houseTypeId" @change="filterHouseFunc" placeholder="房间类型" style="margin-left:40px;">
             <el-option v-for="item in houseTypes" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
         </el-select>
@@ -64,21 +64,6 @@
             </template>
         </el-table-column>
     </el-table>
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-        <el-form label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-            <el-form-item label="序列号">
-                <el-input v-model="addTerminalInfo.terminalId"></el-input>
-            </el-form-item>
-            <el-form-item label="设备序号">
-                <el-input-number v-model="addTerminalInfo.terminalSequence" controls-position="right" :min="1"></el-input-number>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取消</el-button>
-            <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">确认</el-button>
-            <el-button v-else type="primary" @click="updateData">更新</el-button>
-        </div>
-    </el-dialog>
 </div>
 </template>
 
@@ -89,7 +74,9 @@ import {
     changeTerminalMeeting
 } from '@/api/terminal'
 import {
-    listHouses
+    listHouses,
+    getHouseType,
+    filterHouse
 } from "@/api/house";
 import {
     parseTime
@@ -127,7 +114,7 @@ export default {
             }],
             houseTypeID: undefined,
             listQuery: {
-                houseTypeID: undefined,
+                houseTypeId: undefined,
                 provinceId: undefined,
                 cityId: undefined,
                 districtId: undefined
@@ -158,8 +145,22 @@ export default {
     created() {
         this.fetchData()
         this.getAllProvince()
+        this.getHouseTypes()
     },
     methods: {
+        getHouseTypes(){
+            this.houseTypes = []
+            getHouseType().then(response => {
+                
+                for (let i = 0; i < response.data.length; i++) {
+                    const element = response.data[i];
+                    this.houseTypes.push({
+                        value:element.houseTypeId,
+                        label:element.houseType
+                    })
+                }
+            })
+        },
         fetchData() {
             this.listLoading = true
             listHouses().then(response => {
@@ -212,13 +213,10 @@ export default {
                     })
                 }
             })
-            //  {
-            //     value: 'zhinan',
-            //     label: '指南',
-            //     children: []
-            //   }
         },
         chooseCity(val) {
+            this.clearQuery(2)
+            this.filterHouseFunc()
             this.cities = []
             getCity(val).then(response => {
                 for (let index = 0; index < response.data.length; index++) {
@@ -231,6 +229,8 @@ export default {
             })
         },
         chooseDistrict(val) {
+            this.clearQuery(1)
+            this.filterHouseFunc()
             this.districts = []
             getDistrict(val).then(response => {
                 for (let index = 0; index < response.data.length; index++) {
@@ -242,6 +242,23 @@ export default {
                 }
             })
         },
+        filterHouseFunc(){
+            filterHouse(this.listQuery).then(response => {
+                if (response.success) {
+                    this.list  = response.data
+                }
+            })
+        },
+        clearQuery(number){
+            switch (number) {
+                case 2:
+                    this.listQuery.cityId=undefined
+                case 1:
+                    this.listQuery.districtId=undefined
+                default:
+                    break;
+            }
+        }
     }
 }
 </script>

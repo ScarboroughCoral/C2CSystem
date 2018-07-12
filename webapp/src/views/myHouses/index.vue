@@ -18,7 +18,7 @@
     <el-table :data="responseData" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" type="selection" width="55"></el-table-column>
       <el-table-column align="center" label="序号" type="index" width="55"></el-table-column>
-      <el-table-column align="center" label="房源类型">
+      <el-table-column align="center" label="房源类型描述">
         <template slot-scope="scope">
           <span>{{scope.row.houseTypeDes}}</span>
         </template>
@@ -30,7 +30,7 @@
       </el-table-column>
       <el-table-column align="center" label="房源所在地">
         <template slot-scope="scope">
-          <span>{{scope.row.houseAddr}}</span>
+          <span>{{scope.row.provinceDesc+scope.row.cityDesc+scope.row.districtDesc}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="租金">
@@ -38,11 +38,6 @@
           <span>{{scope.row.price}}</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column align="center" label="发布时间">
-        <template slot-scope="scope">
-          <span>{{scope.row.vote_type_name}}</span>
-        </template>
-      </el-table-column> -->
       <el-table-column align="center" label="状态">
         <template slot-scope="scope">
           <el-tag :type="scope.row.houseStateDes | statusFilter">{{scope.row.houseStateDes}}</el-tag>
@@ -53,7 +48,7 @@
           <el-button type="success" size="mini"  @click="handleHousePic(scope.$index,scope.item)">上传图片</el-button>
           <el-button type="primary" size="mini" @click="">编辑</el-button>
           <!-- <el-button size="mini" type="success">发布</el-button> -->
-          <el-button size="mini" type="danger">撤回</el-button>
+          <el-button size="mini" type="danger" v-if="scope.row.houseStateDes=='可以租用'">撤回</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -164,51 +159,6 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <!-- 这是选票记录修改或结果弹框 -->
-    <el-dialog :title="recordTextMap[recordDialogStatus]"  :visible.sync="recordDialogFormVisible" top="10vh" :center="true" width="70%">
-
-      <el-form v-if="dialogStatus === 'voteResult'" label-position="left" label-width="70px" style='width: 100%;'>
-        <el-container>
-          <el-header>
-            <h2 class="result-title">{{nowRecord.title}}</h2>
-          </el-header>
-          <el-main>
-            <el-table 
-            
-             style="margin-top:10px;height:450px; overflow-y:scroll" border :data="voteResult.line">
-              
-              
-              <el-table-column v-for="(item,index) in voteResult.headers" v-if="index!=voteResult.headers.length-1" :key="index" align="center" :label="item">
-                
-                <template  slot-scope="scope">
-                  <span>{{scope.row.headers[index]}}</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" label="详情">
-                <template slot-scope="scope">
-                  <span>
-                    <el-tag type="success">同意:{{scope.row.resultDetailMap['1']}}</el-tag>
-                    <el-tag type="danger">不同意:{{scope.row.resultDetailMap['-1']}}</el-tag>
-                    <el-tag type="info" v-if="nowRecord.is_abstain">弃权:{{scope.row.resultDetailMap['0']}}</el-tag>
-                  </span>
-                </template>
-              </el-table-column>
-              <el-table-column v-if="isShowResult" align="center" label="当前结果">
-                <template slot-scope="scope">
-                  <span>{{scope.row.result}}</span>
-                </template>
-              </el-table-column>
-              
-            </el-table>
-          </el-main>
-          <el-footer v-if="isShowVoters" class="vote-result-footer">
-            <p><el-tag>投票者</el-tag><span v-for="(item,index) in voteResult.usersNotVote">{{item}}<span v-if="index!=(voteResult.usersNotVote.length-1)">、</span></span><span v-if="voteResult.usersNotVote.length==0">暂无评委投票</span></p>
-            <!-- <p><el-tag>未投票者</el-tag>1,2</p> -->
-          </el-footer>
-        </el-container>
-      </el-form>
-
-    </el-dialog>
   </div>
 </template>
 
@@ -285,12 +235,9 @@ export default {
           label:'海景房测试'
         }
       ],
-      nowMeetingId:undefined,
       nowRecord:{},
-      meetingStatus:0,
       list: null,
       listLoading: true,
-      voteTypeOptions: [1, 2, 3],
       searchInputPlaceholder: '请输入房源类型',
       recordDialogStatus: 'voteResult',
       recordDialogFormVisible:false,
@@ -314,7 +261,7 @@ export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        '0': 'success',
+        '可以租用': 'success',
         '1': 'info',
         deleted: 'danger'
       }
@@ -364,11 +311,6 @@ export default {
           })
         }
       })
-      //  {
-      //     value: 'zhinan',
-      //     label: '指南',
-      //     children: []
-      //   }
     },
     chooseCity(val){
       this.cities=[]
@@ -415,14 +357,6 @@ export default {
       this.tableHeader = data.header
       this.traditionalCreateForm.rowNumber = this.tableData.length+1
       this.traditionalCreateForm.columnNumber = this.tableHeader.length
-    },
-    handleCancel(){
-      this.dialogFormVisible = false
-      for (const key in this.steps) {
-        if (this.steps.hasOwnProperty(key)) {
-          this.steps[key] = 1
-        }
-      }
     },
     handleHouse(){
       this.dialogStatus = 'addHouse'
