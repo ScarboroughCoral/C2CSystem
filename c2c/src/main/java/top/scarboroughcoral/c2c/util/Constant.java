@@ -26,7 +26,6 @@ public class Constant {
     public static final String USER_LOGIN_SUCCESS = "登陆成功";
     public static final String USER_PASSWORD_ERROR = "密码错误";
     public static final String USER_NOT_FOUND = "用户不存在";
-    public static final String TERMINAL_NOT_FOUND = "此设备不允许参会";
     public static final String VOTE_STATUS_PASS = "通过";
     public static final String VOTE_STATUS_NOT_PASS = "未通过";
     public static final String RESULT_SAVE_VOTE_SUCCESS_MESSAGE = "创建投票成功";

@@ -1,6 +1,7 @@
 package top.scarboroughcoral.c2c.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import top.scarboroughcoral.c2c.model.entity.User;
 
@@ -48,6 +49,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     @Query(value = "INSERT INTO USER (username,password,name,phone,mail,regist_time,address,id_card)" +
             "VALUE=(?1,?2,?3,?4,?5,?6,?7,?8)",nativeQuery = true)
+    @Modifying
     int addUser(String username, String password, String name, String phone, String mail, String address, Time register_time, String id_card);
 
 }
