@@ -2,6 +2,7 @@ package top.scarboroughcoral.c2c.service.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.scarboroughcoral.c2c.model.dto.OrderDTO;
 import top.scarboroughcoral.c2c.model.entity.UserOrder;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
@@ -22,6 +23,7 @@ public class UserOderServiceImpl implements UserOrderService {
     private HouseRepository houseRepository;
 
     @Override
+    @Transactional
     public void orderHouse(Integer houseId, Integer userId,Integer orderStateId,BaseResult<Object> result) {
 
         int state;
