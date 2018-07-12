@@ -8,6 +8,7 @@ import top.scarboroughcoral.c2c.model.entity.User;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
 import top.scarboroughcoral.c2c.service.UserService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @RestController
@@ -41,6 +42,19 @@ public class UserController {
     public BaseResult<AdminDTO> admin(@RequestBody(required = true) AdminDTO adminDTO){
         BaseResult<AdminDTO> result = new BaseResult<>();
         userService.admin(adminDTO.getLoginName(),adminDTO.getPassword(),result);
+        return result;
+    }
+
+    @PostMapping("/changeInfo")
+    public BaseResult<Object> changeUserInfo(@RequestParam(value = "userId") Integer userId,
+                                             @RequestParam(value = "phone",required = false) String phone,
+                                             @RequestParam(value = "identify",required = false) String identify,
+                                             @RequestParam(value = "address",required = false) String address,
+                                             @RequestParam(value = "mail",required = false) String mail,
+                                             @RequestParam(value = "name",required = false)String name,
+                                             @RequestParam(value = "password",required = false) String password){
+        BaseResult<Object> result = new BaseResult<>();
+        userService.changeUserInfo(userId,phone,identify,address,mail,name,password,result);
         return result;
     }
 

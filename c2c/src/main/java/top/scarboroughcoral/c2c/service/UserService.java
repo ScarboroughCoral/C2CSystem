@@ -18,6 +18,8 @@ public interface UserService {
 
     void addUser(String loginName, String username, String password, String phone,String mail,String address,String idCard,BaseResult<Object> result);
 
+    void changeUserInfo(Integer userId, String phone,String identify,String address,String mail,String name,String password,BaseResult<Object> result);
+
     void getUserList(BaseResult<List<User>> result);
 
     void changeUserMeeting(List<Integer> userIdList, Integer meetingId, BaseResult<Object> result);

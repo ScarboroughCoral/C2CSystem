@@ -57,6 +57,46 @@ public class UserServiceImpl implements UserService {
         result.setSuccess(true);
     }
 
+    @Override
+    public void changeUserInfo(Integer userId, String phone, String identify, String address, String mail, String name, String password, BaseResult<Object> result) {
+        User user = userRepository.getUser(userId);
+        if(user == null){
+            result.setMessage("用户不存在");
+            result.setSuccess(false);
+            return;
+        }
+
+        if(phone != null){
+            user.setPhone(phone);
+        }
+
+        if(identify != null){
+            user.setIDCard(identify);
+        }
+
+        if(address != null){
+            user.setAddress(address);
+        }
+
+        if(mail != null){
+            user.setMail(mail);
+        }
+
+        if(name != null){
+            user.setName(name);
+        }
+
+        if(password != null){
+            user.setPassword(MD5Util.getMD5(password));
+        }
+
+        userRepository.save(user);
+
+        result.setMessage("修改成功");
+        result.setSuccess(true);
+
+    }
+
 
     @Override
     public void getUserList(BaseResult<List<User>> result) {
