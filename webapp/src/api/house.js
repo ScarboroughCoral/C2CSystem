@@ -41,3 +41,41 @@ export function uploadImg(params) {
         data: params,
     })
 }
+
+export function getHousePics(houseId) {
+    return request({
+        url: '/img/getHouseImg',
+        method:'get',
+        params: {
+            houseId
+        },
+    })
+}
+
+
+export function getSepcificHouse(houseId){
+    return request({
+        url: '/lobby/getRentHouseInfo',
+        method:'get',
+        params: {
+            houseId
+        },
+    })
+}
+
+export function filterHouse(params) {
+    return request({
+        url: '/address/search',
+        method:'get',
+        params: params
+    })
+    
+}
+
+export function updateHouseState(params) {
+    return request({
+        url: '/lobby/changeHouseState',
+        method:'POST',
+        params: params
+    })
+}
