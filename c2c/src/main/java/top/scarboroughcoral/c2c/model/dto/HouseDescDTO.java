@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class HouseDescDTO {
 
-    String houseDesc;
-    String houseAddr;
-    Integer renterPhone;
-    Double price;
-    Double area;
-    Date rentStartTime;
-    Date rentEndTime;
+    private String houseDesc;
+    private String houseAddr;
+    private Integer renterPhone;
+    private Double price;
+    private Double area;
+    private Date rentStartTime;
+    private Date rentEndTime;
 
     public HouseDescDTO(){
     }
