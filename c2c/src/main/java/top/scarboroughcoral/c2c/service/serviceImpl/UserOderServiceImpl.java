@@ -22,7 +22,7 @@ public class UserOderServiceImpl implements UserOrderService {
     @Autowired
     private HouseRepository houseRepository;
 
-    
+
 
     @Override
     @Transactional

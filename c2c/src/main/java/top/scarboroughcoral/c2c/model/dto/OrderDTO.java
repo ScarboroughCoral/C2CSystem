@@ -15,8 +15,24 @@ public class OrderDTO {
     private String cityDesc;
     private String districtDesc;
     private Date orderTime;
+    private Integer houseId;
 
     public OrderDTO(){
+    }
+
+    public OrderDTO(String username, String orderStateDesc, String houseType, Double price, Double houseArea, String houseAddr, String houseDesc, String provinceDesc, String cityDesc, String districtDesc, Date orderTime, Integer houseId) {
+        this.username = username;
+        this.orderStateDesc = orderStateDesc;
+        this.houseType = houseType;
+        this.price = price;
+        this.houseArea = houseArea;
+        this.houseAddr = houseAddr;
+        this.houseDesc = houseDesc;
+        this.provinceDesc = provinceDesc;
+        this.cityDesc = cityDesc;
+        this.districtDesc = districtDesc;
+        this.orderTime = orderTime;
+        this.houseId = houseId;
     }
 
     public OrderDTO(String username, String orderStateDesc, String houseType, Double price, Double houseArea, String houseAddr, String houseDesc, String provinceDesc, String cityDesc, String districtDesc, Date orderTime) {
@@ -31,6 +47,14 @@ public class OrderDTO {
         this.cityDesc = cityDesc;
         this.districtDesc = districtDesc;
         this.orderTime = orderTime;
+    }
+
+    public Integer getHouseId() {
+        return houseId;
+    }
+
+    public void setHouseId(Integer houseId) {
+        this.houseId = houseId;
     }
 
     public Date getOrderTime() {
