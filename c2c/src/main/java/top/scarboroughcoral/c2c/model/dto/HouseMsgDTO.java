@@ -39,6 +39,30 @@ public class HouseMsgDTO {
         this.houseMoney = houseMoney;
     }
 
+    public String getProvinceDesc() {
+        return provinceDesc;
+    }
+
+    public void setProvinceDesc(String provinceDesc) {
+        this.provinceDesc = provinceDesc;
+    }
+
+    public String getCityDesc() {
+        return cityDesc;
+    }
+
+    public void setCityDesc(String cityDesc) {
+        this.cityDesc = cityDesc;
+    }
+
+    public String getDistrictDess() {
+        return districtDess;
+    }
+
+    public void setDistrictDess(String districtDess) {
+        this.districtDess = districtDess;
+    }
+
     public Integer getHouseID() {
         return houseID;
     }
