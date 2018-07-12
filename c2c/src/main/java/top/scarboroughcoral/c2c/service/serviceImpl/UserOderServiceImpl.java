@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import top.scarboroughcoral.c2c.model.dto.OrderDTO;
 import top.scarboroughcoral.c2c.model.entity.UserOrder;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
+import top.scarboroughcoral.c2c.repository.HouseRepository;
 import top.scarboroughcoral.c2c.repository.UserOrderRepository;
 import top.scarboroughcoral.c2c.service.UserOrderService;
 
@@ -16,6 +17,9 @@ public class UserOderServiceImpl implements UserOrderService {
 
     @Autowired
     private UserOrderRepository userOrderRepository;
+
+    @Autowired
+    private HouseRepository houseRepository;
 
     @Override
     public void orderHouse(Integer houseId, Integer userId,Integer orderStateId,BaseResult<Object> result) {
@@ -30,6 +34,7 @@ public class UserOderServiceImpl implements UserOrderService {
 
         UserOrder userOrder = new UserOrder(state, userId, new Date(), false, houseId);
         userOrderRepository.save(userOrder);
+        houseRepository.changeHouseState(houseId,2);
 
         result.setSuccess(true);
         result.setMessage("订单建立成功");
