@@ -34,29 +34,14 @@
         </el-table-column>
         <el-table-column align="center" label="房源所在地">
             <template slot-scope="scope">
-                <span>{{scope.row.houseAddr}}</span>
+                <span>{{scope.row.provinceDesc+scope.row.cityDesc+scope.row.districtDess}}</span>
             </template>
         </el-table-column>
-        <!-- <el-table-column align="center" label="联系方式">
-        <template slot-scope="scope">
-          <span>{{scope.row.orderPhone||暂无}}</span>
-        </template>
-      </el-table-column> -->
         <el-table-column align="center" label="租金">
             <template slot-scope="scope">
                 <span>{{scope.row.houseMoney}}</span>
             </template>
         </el-table-column>
-        <!-- <el-table-column align="center" label="发布时间">
-        <template slot-scope="scope">
-          <span>{{(new Date(scope.row.orderTime))}}</span>
-        </template>
-      </el-table-column> -->
-        <!-- <el-table-column class-name="status-col" label="终端状态" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.terminal_status}}</el-tag>
-        </template>
-      </el-table-column> -->
 
         <el-table-column align="center" label="操作">
             <template slot-scope="scope">

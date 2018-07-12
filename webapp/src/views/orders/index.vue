@@ -40,10 +40,34 @@
 
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.vote_status!='1'" type="success" size="mini" @click="" >评价</el-button>
+          <el-button v-if="scope.row.vote_status!='1'" type="success" size="mini" @click="handleEnvaluate(scope.$index,scope.row)" >评价</el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <el-dialog title="评价" :visible.sync="dialogFormVisible">
+        <el-form label-position="left" label-width="100px">
+            <el-form-item required label="评价" >
+              <el-rate
+                v-model="valuateForm.evaluationStar"
+                :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+              </el-rate>
+            </el-form-item>
+            <el-form-item required label="评论">
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 2, maxRows: 4}"
+                placeholder="请输入内容"
+                v-model="valuateForm.evaluationStr">
+              </el-input>
+            </el-form-item>
+
+        </el-form>
+
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" :disabled="unclickable" @click="envaluate">{{clickabletext}}</el-button>
+        </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -51,6 +75,7 @@
 import { getList,changeUserMeeting,changeUserVote } from '@/api/judges'
 import { fetchList } from '@/api/vote'
 import { listOrder } from "@/api/order";
+import { envaluateHouse } from "@/api/house";
 import Cookies from "js-cookie";
 import { parseTime } from "@/utils/index";
 
@@ -58,6 +83,14 @@ export default {
   // name: 'judges',
   data() {
     return {
+      unclickable:false,
+      clickabletext:'提交',
+      valuateForm:{
+        userId:undefined,
+        houseId:undefined,
+        evaluationStar:undefined,
+        evaluationStr:''
+      },
       options: [],
       userId:undefined,
       list: null,
@@ -80,7 +113,8 @@ export default {
         meetingId:'',
         voteId:undefined
       },
-      multipleSelection:[]
+      multipleSelection:[],
+      nowRecord:{}
     }
   },
   filters: {
@@ -140,6 +174,27 @@ export default {
     fetchDataByVote(){
       this.listQuery.voteId = this.nowVote
       this.fetchData()
+    },
+    handleEnvaluate(index,row){
+      this.dialogFormVisible = true
+      this.nowRecord = row
+    },
+    envaluate(){
+      this.valuateForm.userId = this.userId
+      this.valuateForm.houseId = this.nowRecord.houseId
+      this.unclickable = true
+      this.clickabletext = '正在提交'
+      envaluateHouse(this.valuateForm).then(response => {
+        if (response.success) {
+          this.$message.success(response.message)
+        } else {
+          this.$message.error(response.message)
+        }
+
+        this.unclickable = false
+        this.dialogFormVisible = false
+        this.clickabletext = '提交'
+      })
     }
   }
 }
