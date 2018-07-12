@@ -11,9 +11,24 @@ public class HouseMsgDTO {
     private String houseAddr;
     private Double houseMoney;
 
+    private String provinceDesc;
+    private String cityDesc;
+    private String districtDess;
+
 
     public HouseMsgDTO(){
 
+    }
+
+    public HouseMsgDTO(Integer houseID, String houseTypeDes, String houseDes, String houseAddr, Double houseMoney, String provinceDesc, String cityDesc, String districtDess) {
+        this.houseID = houseID;
+        this.houseTypeDes = houseTypeDes;
+        this.houseDes = houseDes;
+        this.houseAddr = houseAddr;
+        this.houseMoney = houseMoney;
+        this.provinceDesc = provinceDesc;
+        this.cityDesc = cityDesc;
+        this.districtDess = districtDess;
     }
 
     public HouseMsgDTO(Integer houseID, String houseTypeDes, String houseDes, String houseAddr, Double houseMoney) {

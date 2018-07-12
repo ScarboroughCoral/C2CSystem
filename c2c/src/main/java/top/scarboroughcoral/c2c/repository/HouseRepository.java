@@ -14,9 +14,10 @@ public interface HouseRepository extends JpaRepository<House,Integer> {
 
 
     @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(h.houseId,ht.houseType,h.houseDesc," +
-            "h.houseAddr,h.price) "+
-            "from HouseType ht,House h " +
-            "where h.houseTypeId=ht.houseTypeId and h.houseStatusId=1")
+            "h.houseAddr,h.price,p.provinceDesc,c.cityDesc,d.districtDesc) "+
+            "from HouseType ht,House h,Province p,City c,District d " +
+            "where h.houseTypeId=ht.houseTypeId and h.houseStatusId=1 and h.districtId=d.districtId and " +
+            "c.cityId=d.cityId and p.provinceId=c.provinceId")
     List<HouseMsgDTO> getHouseMsg();
 
     @Query(value = "select * from house where house_id=?1",nativeQuery = true)
@@ -24,9 +25,10 @@ public interface HouseRepository extends JpaRepository<House,Integer> {
 
 
     @Query(value = "select new top.scarboroughcoral.c2c.model.dto.HouseMsgDTO(h.houseId,ht.houseType,h.houseDesc," +
-            "h.houseAddr,h.price) "+
-            "from HouseType ht,House h " +
-            "where h.houseTypeId=ht.houseTypeId and h.houseStatusId=1 and h.houseTypeId=?1")
+            "h.houseAddr,h.price,p.provinceDesc,c.cityDesc,d.districtDesc) "+
+            "from HouseType ht,House h,Province p,City c,District d " +
+            "where h.houseTypeId=ht.houseTypeId and h.houseStatusId=1 and h.houseTypeId=?1 " +
+            "and h.districtId=d.districtId and c.cityId=d.cityId and p.provinceId=c.provinceId")
     List<HouseMsgDTO> getHouseMsgByType(Integer houseTypeId);
 
 
