@@ -10,4 +10,5 @@ import java.util.List;
 public interface UserOrderService {
     void orderHouse(Integer houseId, Integer userId,Integer orderStateId, BaseResult<Object> result);
     void getOrderMsg(Integer userId, BaseResult<List<OrderDTO>> result);
+    void checkout(Integer orderId,BaseResult<Integer> result);
 }

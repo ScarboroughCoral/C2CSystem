@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class OrderDTO {
 
+    private Integer orderId;
     private String username;
     private String orderStateDesc;
     private String houseType;
@@ -18,6 +19,22 @@ public class OrderDTO {
     private Integer houseId;
 
     public OrderDTO(){
+    }
+
+    public OrderDTO(Integer orderId, String username, String orderStateDesc, String houseType, Double price, Double houseArea, String houseAddr, String houseDesc, String provinceDesc, String cityDesc, String districtDesc, Date orderTime, Integer houseId) {
+        this.orderId = orderId;
+        this.username = username;
+        this.orderStateDesc = orderStateDesc;
+        this.houseType = houseType;
+        this.price = price;
+        this.houseArea = houseArea;
+        this.houseAddr = houseAddr;
+        this.houseDesc = houseDesc;
+        this.provinceDesc = provinceDesc;
+        this.cityDesc = cityDesc;
+        this.districtDesc = districtDesc;
+        this.orderTime = orderTime;
+        this.houseId = houseId;
     }
 
     public OrderDTO(String username, String orderStateDesc, String houseType, Double price, Double houseArea, String houseAddr, String houseDesc, String provinceDesc, String cityDesc, String districtDesc, Date orderTime, Integer houseId) {
@@ -47,6 +64,14 @@ public class OrderDTO {
         this.cityDesc = cityDesc;
         this.districtDesc = districtDesc;
         this.orderTime = orderTime;
+    }
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
     public Integer getHouseId() {

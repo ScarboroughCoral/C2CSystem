@@ -6,6 +6,7 @@ import top.scarboroughcoral.c2c.model.dto.OrderDTO;
 import top.scarboroughcoral.c2c.model.result.BaseResult;
 import top.scarboroughcoral.c2c.service.UserOrderService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @RestController
@@ -28,6 +29,13 @@ public class UserOrderController {
     public BaseResult<List<OrderDTO>> getOrderMsg(@RequestParam("userId") Integer userId){
         BaseResult<List<OrderDTO>> result = new BaseResult<>();
         userOrderService.getOrderMsg(userId,result);
+        return result;
+    }
+
+    @PostMapping("/checkout")
+    public BaseResult<Integer> checkout(@RequestParam("orderId") Integer orderId){
+        BaseResult<Integer> result= new BaseResult<>();
+        userOrderService.checkout(orderId,result);
         return result;
     }
 

@@ -56,4 +56,19 @@ public class UserOderServiceImpl implements UserOrderService {
             result.setSuccess(false);
         }
     }
+
+    @Override
+    @Transactional
+    public void checkout(Integer orderId, BaseResult<Integer> result) {
+        Integer cow = userOrderRepository.checkout(orderId);
+        if(cow == null){
+            result.setMessage("获取失败");
+            result.setSuccess(false);
+        }else{
+            result.setMessage("退房成功");
+            result.setSuccess(true);
+            result.setData(cow
+            );
+        }
+    }
 }
