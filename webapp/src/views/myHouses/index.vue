@@ -45,7 +45,7 @@
         <el-table-column align="center" label="操作">
             <template slot-scope="scope">
                 <el-button type="success" size="mini" @click="handleHousePic(scope.$index,scope.row)">上传图片</el-button>
-                <el-button type="primary" size="mini" @click="handleHouseEdit(scope.$index,scope.row)">编辑</el-button>
+                <el-button type="primary"  v-if="scope.row.houseStateDes!='已经租出'" size="mini" @click="handleHouseEdit(scope.$index,scope.row)">编辑</el-button>
                 <!-- <el-button size="mini" type="success">发布</el-button> -->
                 <el-button size="mini" type="danger" @click="handleCollect(scope.$index,scope.row)" v-if="scope.row.houseStateDes=='可以租用'">撤回</el-button>
                 <el-button size="mini" type="success" @click="handleRepublic(scope.$index,scope.row)" v-if="scope.row.houseStateDes=='已经撤回'">发布</el-button>

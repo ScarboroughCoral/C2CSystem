@@ -221,7 +221,7 @@ export default {
             checkout(row.orderId).then(response => {
                 if (response.success) {
                     this.$message.success(response.message)
-                    this.getList()
+                    this.fetchData()
                 }
             })
         }).catch(() => {
