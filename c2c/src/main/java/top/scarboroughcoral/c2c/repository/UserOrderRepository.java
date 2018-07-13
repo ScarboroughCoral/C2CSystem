@@ -14,7 +14,7 @@ public interface UserOrderRepository extends JpaRepository<UserOrder,Integer> {
             "h.houseAddr,h.houseDesc,p.provinceDesc,c.cityDesc,d.districtDesc,uo.orderTime,h.houseId) " +
             "from House h,HouseType ht,User u,OrderStatus os,UserOrder uo,Province p,City c,District d " +
             "where h.houseId=uo.houseID and h.houseTypeId=ht.houseTypeId and uo.orderStatusId=os.orderStatusId and u.userId=uo.userId " +
-            "and h.districtId=d.districtId and d.cityId=c.cityId and p.provinceId=c.provinceId and u.userId=?1 and uo.orderStatusId=2")
+            "and h.districtId=d.districtId and d.cityId=c.cityId and p.provinceId=c.provinceId and u.userId=?1")
     List<OrderDTO> getOrderMsg(Integer userId);
 
 
