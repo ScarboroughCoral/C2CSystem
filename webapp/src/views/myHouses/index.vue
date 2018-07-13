@@ -34,7 +34,7 @@
         </el-table-column>
         <el-table-column align="center" label="租金">
             <template slot-scope="scope">
-                <span>{{scope.row.price}}</span>
+                <el-tag type="danger">¥{{scope.row.price}}</el-tag>
             </template>
         </el-table-column>
         <el-table-column align="center" label="状态">
@@ -62,7 +62,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item required label="租金">
-                <el-input-number v-model="houseForm.price" :precision="2" :step="0.01"></el-input-number>
+                <el-input-number v-model="houseForm.price" :precision="2" :step="0.01"></el-input-number><el-tag type="danger">元</el-tag>
             </el-form-item>
             <el-form-item required label="房间面积">
                 <el-input-number v-model="houseForm.houseArea" :precision="2" :step="0.01"></el-input-number>

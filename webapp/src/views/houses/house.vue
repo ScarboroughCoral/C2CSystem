@@ -5,7 +5,7 @@
             <el-tag type="info">{{houseForm.houseTypeDes}}</el-tag>
             </el-form-item>
             <el-form-item label="租金">
-            <el-tag type="info">{{houseForm.price}}</el-tag>
+            <el-tag type="danger">¥{{houseForm.price}}</el-tag>
             </el-form-item>
             <el-form-item label="房间面积">
             <el-tag type="info">{{houseForm.area}}</el-tag>
@@ -15,14 +15,15 @@
             </el-form-item>
             <el-form-item label="房间图片">
 
+                
                 <el-carousel :interval="3000" type="card" arrow="always" style="width:900px;" >
                     <el-carousel-item v-for="item in picList" :key="item">
                         <img :src="item" style="display:block;height:100%;width:100%;" alt="">
+                        <h3>{{item}}</h3>
                     </el-carousel-item>
                     <el-carousel-item v-if="picList.length==0" :key="-1">
                         <h3 style="text-align:center;">暂无图片</h3>
                     </el-carousel-item>
-
                 </el-carousel>
             </el-form-item>
             <el-form-item label="出租时间">
@@ -115,8 +116,8 @@ export default {
             getHousePics(this.houseId).then( response => {
                 if (response.success) {
                     for (let index = 0; index < response.data.length; index++) {
-                        const element = response.data[index];
-                        this.picList.push(element)
+                        let element = response.data[index];
+                        this.picList.push(element.slice(26))
                     }
                 }
             })

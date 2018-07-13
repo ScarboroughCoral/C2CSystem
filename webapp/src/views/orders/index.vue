@@ -22,10 +22,15 @@
           <span>{{scope.row.provinceDesc+scope.row.cityDesc+scope.row.districtDesc}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="手机号">
+      <el-table-column align="center" label="消费">
         <template slot-scope="scope">
-          <span>{{scope.row.username}}</span>
-        </template>
+          <el-tag type="danger">¥{{scope.row.price}}</el-tag>
+        </template >
+      </el-table-column>
+      <el-table-column align="center" label="订单状态">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.orderStateDesc|orderStateTagFilter" >{{scope.row.orderStateDesc}}</el-tag>
+        </template >
       </el-table-column>
       <el-table-column align="center" label="订单时间">
         <template slot-scope="scope">
@@ -40,7 +45,8 @@
 
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.vote_status!='1'" type="success" size="mini" @click="handleEnvaluate(scope.$index,scope.row)" >评价</el-button>
+          <el-button  type="success" size="mini" @click="handleEnvaluate(scope.$index,scope.row)" >评价</el-button>
+          <el-button v-if="scope.row.orderStateDesc!='已退房'"  type="danger" size="mini" @click="handleCheckout(scope.$index,scope.row)" >退房</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -73,9 +79,10 @@
 
 <script>
 import { getList,changeUserMeeting,changeUserVote } from '@/api/judges'
+
 import { fetchList } from '@/api/vote'
-import { listOrder } from "@/api/order";
-import { envaluateHouse } from "@/api/house";
+import { listOrder,checkout } from "@/api/order";
+import { envaluateHouse ,updateHouseState} from "@/api/house";
 import Cookies from "js-cookie";
 import { parseTime } from "@/utils/index";
 
@@ -128,6 +135,13 @@ export default {
     },
       dateTimeFilter(val){
           return parseTime(val,'{y}年{m}月{d}日')
+      },
+      orderStateTagFilter(status){
+        const statusMap = {
+          '已退房':'info',
+          '交易完成':'success'
+        }
+        return statusMap[status]
       }
   },
   created() {
@@ -195,6 +209,27 @@ export default {
         this.dialogFormVisible = false
         this.clickabletext = '提交'
       })
+    },
+    handleCheckout(index,row){
+
+        this.$confirm('确定退房吗, 是否继续?', '退房', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(() => {
+          
+            checkout(row.orderId).then(response => {
+                if (response.success) {
+                    this.$message.success(response.message)
+                    this.getList()
+                }
+            })
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '退房失败！'
+            });
+        });
     }
   }
 }

@@ -17,3 +17,13 @@ export function listOrder(userId) {
         }
     })
 }
+
+export function checkout(orderId){
+    return request({
+        url:'/order/checkout',
+        method:'post',
+        params:{
+            orderId
+        }
+    })
+}

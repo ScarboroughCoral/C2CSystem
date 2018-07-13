@@ -39,7 +39,7 @@
         </el-table-column>
         <el-table-column align="center" label="租金">
             <template slot-scope="scope">
-                <span>{{scope.row.houseMoney}}</span>
+                <el-tag type="danger">¥{{scope.row.houseMoney}}</el-tag>
             </template>
         </el-table-column>
 
