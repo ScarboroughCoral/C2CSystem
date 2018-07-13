@@ -79,3 +79,31 @@ export function updateHouseState(params) {
         params: params
     })
 }
+
+export function updateHouseInfo(houseId,params) {
+    return request({
+        url: '/lobby/changeHouseInfo',
+        method:'post',
+        params:{
+            houseId
+        },
+        data:params
+    })
+}
+
+export function envaluateHouse(params) {
+    return request({
+        url: '/evaluation/set',
+        method:'POST',
+        params: params
+    })
+}
+export function getHouseEnvaluate(houseId) {
+    return request({
+        url: '/evaluation/get',
+        method:'get',
+        params: {
+            houseId
+        }
+    })
+}

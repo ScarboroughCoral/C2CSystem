@@ -17,8 +17,12 @@
 
                 <el-carousel :interval="3000" type="card" arrow="always" style="width:900px;" >
                     <el-carousel-item v-for="item in picList" :key="item">
-                        <img :src="item" alt="">
+                        <img :src="item" style="display:block;height:100%;width:100%;" alt="">
                     </el-carousel-item>
+                    <el-carousel-item v-if="picList.length==0" :key="-1">
+                        <h3 style="text-align:center;">暂无图片</h3>
+                    </el-carousel-item>
+
                 </el-carousel>
             </el-form-item>
             <el-form-item label="出租时间">
@@ -27,6 +31,25 @@
             </el-form-item>
             <el-form-item label="房源所在地">
                 <el-tag type="info">{{houseForm.provinceDesc+houseForm.cityDesc+houseForm.districtDesc}}</el-tag>
+            </el-form-item>
+            <el-form-item label="评论">
+                <el-table :data="tableData" v-loading.body="listLoading"
+                 border fit highlight-current-row>
+                    <el-table-column align="center" label="评价">
+                        <template slot-scope="scope">
+                            <el-rate
+                                disabled
+                                v-model="scope.row.evaluationStar"
+                                :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+                            </el-rate>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" label="评论">
+                        <template slot-scope="scope">
+                            <el-tag type="info">{{scope.row.evaluationStr}}</el-tag>
+                        </template>
+                    </el-table-column>
+                </el-table>
             </el-form-item>
             <!-- <el-form-item label="房源简介">
             <el-tag type="info">{{houseForm.houseTypeDes}}</el-tag>
@@ -40,7 +63,7 @@
 </template>
 
 <script>
-import { getHousePics,getSepcificHouse } from "@/api/house";
+import { getHousePics,getSepcificHouse,getHouseEnvaluate } from "@/api/house";
 import { parseTime } from "@/utils/index";
 import { setOrder } from "@/api/order";
 import Cookies from "js-cookie";
@@ -48,6 +71,7 @@ import urls from "urls-js";
 export default {
     data(){
         return {
+            listLoading:false,
             userId:undefined,
             houseId:undefined,
             houseForm:{
@@ -61,6 +85,13 @@ export default {
                 houseAddr:'',
                 houseTypeDes:''
             },
+            tableData:[
+                {
+                    evaluationStar:0,
+                    evaluationStr:'',
+                    name:''
+                }
+            ],
 
             houseTypes:[
                 {
@@ -77,6 +108,7 @@ export default {
         this.userId = Cookies.get('userID')
         this.loadHousePics()
         this.loadHouseInfo()
+        this.loadHouseEnvaluations()
     },
     methods:{
         loadHousePics(){
@@ -87,6 +119,20 @@ export default {
                         this.picList.push(element)
                     }
                 }
+            })
+        },
+        loadHouseEnvaluations(){
+            this.listLoading = true
+            const self = this
+            getHouseEnvaluate(this.houseId).then(response => {
+
+                if (response.success) {
+                    self.tableData = response.data
+                } else {
+                this.$message.error(response.message)
+                }
+
+                this.listLoading = false
             })
         },
         loadHouseInfo(){
@@ -141,11 +187,4 @@ line-height: 300px;
 margin: 0;
 }
 
-.el-carousel__item:nth-child(2n) {
-background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n+1) {
-background-color: #d3dce6;
-}
 </style>
